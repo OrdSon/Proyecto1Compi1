@@ -1,0 +1,312 @@
+package Parser;
+import java_cup.runtime.*;
+
+//1. user code
+class Parser;
+
+action code{:
+
+:}
+
+parser code {://código que modifica el comportamiento del parser [sobreescribiendo o creado métodos]    
+    public Parser(Lexer lexer){//nuevo constructor
+        super(lexer);        
+    }    
+    public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+    
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        System.out.println("El error es el simbolo: " + sym.terminalNames[cur_token.sym]);
+        System.out.println(String.format("En la posicion: %d, %d", cur_token.left, cur_token.right));
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        if (cur_token.sym == sym.EOF) {
+            System.out.println("public void unrecoveredsyntax_error");
+        }
+    }
+    protected int error_sync_size(){
+        return 1;
+    }//
+:}//
+
+
+terminal INT, STRING,  CHAR, BYTE, FLOAT, LONG, SHORT;
+terminal PUBLIC, PRIVATE, PROTECTED, CLASS, NEW, VOID;
+terminal IMPORT ,FINAL, BOOLEAN, RETURN, BREAK;
+terminal FOR, WHILE, DO,  SWITCH, CASE, DEFAULT, CONTINUE;
+terminal IF,ELSE,STATIC;
+
+terminal MAS, RESTA, MENOS, DIV, MOD ,POR;
+terminal AND, OR,AAND,OOR;
+terminal CADENA,MENOR,MENORIGUAL,MAYOR;
+terminal MAYORIGUAL,NOT;
+terminal IDENTIFICADOR, DOT, SEMICOLON, COLON,COMA, EQUALS;
+terminal  NUMERO,DECIMAL, DOUBLE, OPENPAR, CLOSEPAR, OPENBRACE, CLOSEBRACE;
+
+
+non terminal importe, visibilidad, visibilidad_clase, c, clase, body, primitivo, tipo, m, metodo, args;
+non terminal sentencia, asignacion, stringS, objetoS;
+non terminal intD; 
+non terminal expr, expr_list, expr_part;
+non terminal inicio, expresion, constructor;
+non terminal s2,s3,s10,s11,s13,s14,s15,s20,s21;
+non terminal valor,igualacion,op_logico,expr_logica,signo_logico;
+non terminal sentencia_logica, if, while, do_while, while_cicle,switch;
+non terminal method_body, cicle_body, for, switch_body,case,case_group,default;
+non terminal llamada,primitivoS, expresion_simple, llamada_compleja,params;
+
+
+
+
+precedence left MAS, RESTA;
+precedence left POR, DIV, MOD;
+precedence left MENOS;
+//Gramatica de Imports
+
+
+start with inicio;
+
+	inicio::= importe inicio
+	|c
+	;
+
+importe ::= IMPORT s2 SEMICOLON;
+
+s2::=IDENTIFICADOR
+	| IDENTIFICADOR DOT s2
+	| IDENTIFICADOR DOT POR
+	;
+
+
+
+body::= asignacion body
+	|expresion SEMICOLON body
+	|m body
+    |sentencia body
+	|constructor body
+    |visibilidad asignacion body
+    |
+	;
+
+visibilidad_clase ::= PUBLIC
+	|PRIVATE
+	|FINAL
+	;
+
+c ::= visibilidad clase
+    | clase;
+
+clase ::= CLASS IDENTIFICADOR OPENBRACE body CLOSEBRACE;
+
+visibilidad::=visibilidad_clase
+	|PROTECTED
+	;
+
+primitivo::= BYTE
+	|SHORT
+	|INT
+	|LONG
+	|FLOAT
+	|DOUBLE
+	|BOOLEAN
+	|CHAR
+	;
+
+tipo::=VOID;
+
+m ::= visibilidad metodo
+	|visibilidad STATIC metodo
+    |metodo
+	;
+
+
+	primitivoS ::= primitivo s3;
+	stringS ::= STRING s10; 
+	objetoS ::= IDENTIFICADOR s11;
+
+	s3 ::=  IDENTIFICADOR
+		| IDENTIFICADOR COMA s3
+		;
+	
+	s10 ::=  IDENTIFICADOR
+		| IDENTIFICADOR COMA s10
+		;
+	s11 ::=  IDENTIFICADOR
+		| IDENTIFICADOR COMA s11
+		;
+
+	expresion ::= primitivoS
+	| stringS
+	| objetoS
+	;
+    
+    expresion_simple::= primitivo IDENTIFICADOR
+            |STRING IDENTIFICADOR
+            |IDENTIFICADOR IDENTIFICADOR
+            ;
+
+	sentencia ::= visibilidad expresion SEMICOLON;
+
+args::= expresion_simple 
+    |   expresion_simple COMA args
+	|
+	;
+
+valor ::= CADENA
+	|IDENTIFICADOR
+	|expr_list
+	;
+
+asignacion ::=  expresion igualacion SEMICOLON
+			| expresion EQUALS NEW IDENTIFICADOR OPENPAR CLOSEPAR SEMICOLON;
+
+igualacion ::= MAS MAS
+		|MENOS MENOS
+        |RESTA RESTA
+		|MAS EQUALS valor
+		|MENOS EQUALS valor
+		|EQUALS valor
+		;
+
+op_logico::= MENOR
+	|MENOR EQUALS
+	|MAYOR
+	|MAYOR EQUALS
+	|EQUALS EQUALS
+	|NOT EQUALS
+	;
+
+signo_logico ::= AND
+	|OR
+	|AND AND
+	|OR OR
+	;
+
+sentencia_logica::= valor op_logico valor
+        |IDENTIFICADOR;
+
+expr_logica::=sentencia_logica
+	|sentencia_logica signo_logico expr_logica
+ 
+	;
+
+if::= IF s13;
+	s13 ::= OPENPAR expr_logica CLOSEPAR OPENBRACE method_body CLOSEBRACE
+	| OPENPAR expr_logica CLOSEPAR OPENBRACE method_body CLOSEBRACE ELSE if
+    | OPENPAR expr_logica CLOSEPAR OPENBRACE method_body CLOSEBRACE ELSE OPENBRACE method_body CLOSEBRACE
+    ;
+
+
+
+for::= FOR OPENPAR s14 CLOSEPAR OPENBRACE cicle_body CLOSEBRACE;
+	s14::= INT IDENTIFICADOR EQUALS NUMERO SEMICOLON IDENTIFICADOR op_logico NUMERO SEMICOLON IDENTIFICADOR igualacion
+|INT IDENTIFICADOR EQUALS NUMERO SEMICOLON IDENTIFICADOR op_logico IDENTIFICADOR SEMICOLON IDENTIFICADOR igualacion
+	| IDENTIFICADOR IDENTIFICADOR COLON IDENTIFICADOR
+	;
+
+while::= WHILE OPENPAR expr_logica CLOSEPAR;
+while_cicle::= while OPENBRACE cicle_body CLOSEBRACE;
+do_while ::= DO OPENBRACE cicle_body CLOSEBRACE while SEMICOLON;
+
+switch::= SWITCH OPENPAR valor CLOSEPAR OPENBRACE switch_body CLOSEBRACE;
+
+
+switch_body ::= case_group
+	;
+
+case_group::= case case_group
+ 	|case 
+    |default case_group
+    |default
+ 	;
+
+case::= CASE NUMERO COLON method_body BREAK SEMICOLON;
+default::= DEFAULT COLON method_body BREAK SEMICOLON;
+
+llamada_compleja ::= IDENTIFICADOR DOT s21;
+    s21 ::= llamada
+    |IDENTIFICADOR DOT s21
+    ;
+llamada::=IDENTIFICADOR OPENPAR  params CLOSEPAR SEMICOLON;
+
+params::= valor 
+    |valor COMA params;
+
+
+metodo ::= tipo s15
+	|IDENTIFICADOR s15
+	|STRING s15
+	|primitivo s15
+	;
+
+s15::= IDENTIFICADOR OPENPAR args CLOSEPAR OPENBRACE method_body CLOSEBRACE;
+
+constructor::=visibilidad s20
+    |s20
+    ;
+
+s20::= IDENTIFICADOR OPENPAR args CLOSEPAR OPENBRACE method_body CLOSEBRACE;
+
+cicle_body::= method_body
+	|BREAK SEMICOLON cicle_body
+	|CONTINUE SEMICOLON cicle_body
+	;
+
+
+method_body::= llamada method_body
+    |llamada_compleja method_body
+	|switch method_body
+	|while_cicle method_body
+	|do_while method_body
+	|for method_body
+	|asignacion method_body
+	|sentencia method_body
+    |expresion SEMICOLON method_body
+	|if method_body
+    |IDENTIFICADOR igualacion SEMICOLON method_body
+	|RETURN valor
+	|RETURN
+	|
+	;
+
+
+
+expr_list ::= expr_list expr_part 
+	      | 
+              expr_part;
+
+expr_part ::= expr:e 
+	      {: System.out.println("= " + e); :} 
+                          
+	      ;
+
+expr      ::= expr:e1 MAS expr:e2    
+	      | 
+              expr:e1 RESTA expr:e2    
+	      | 
+              expr:e1 POR expr:e2 
+	      | 
+              expr:e1 DIV expr:e2 
+	      | 
+              expr:e1 MOD expr:e2 
+	      | 
+              NUMERO:n                 
+	      {: RESULT = n; :} 
+	      | 
+              RESTA expr:e             
+	      %prec MENOS
+	      | 
+              OPENPAR expr:e CLOSEPAR     
+	 
+	      |DECIMAL:d
+             {: RESULT = d; :} 
+	      ;
+
+
+
