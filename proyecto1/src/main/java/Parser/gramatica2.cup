@@ -1,6 +1,6 @@
 package Parser;
 import java_cup.runtime.*;
-import util.DataRecorder;
+
 //1. user code
 class Parser;
 
@@ -9,7 +9,6 @@ action code{:
 :}
 
 parser code {://código que modifica el comportamiento del parser [sobreescribiendo o creado métodos]    
-    DataRecorder  recorder = new DataRecorder();
     public Parser(Lexer lexer){//nuevo constructor
         super(lexer);        
     }    
@@ -37,8 +36,8 @@ parser code {://código que modifica el comportamiento del parser [sobreescribie
 :}//
 
 
-terminal INT, STRING,  CHAR, BYTE, FLOAT, LONG, SHORT;
-terminal PUBLIC, PRIVATE, PROTECTED, CLASS, NEW, VOID;
+terminal String INT, STRING,  CHAR, BYTE, FLOAT, LONG, SHORT;
+terminal String PUBLIC, PRIVATE, PROTECTED, CLASS, NEW, VOID;
 terminal IMPORT ,FINAL, BOOLEAN, RETURN, BREAK;
 terminal FOR, WHILE, DO,  SWITCH, CASE, DEFAULT, CONTINUE;
 terminal IF,ELSE,STATIC;
@@ -47,22 +46,21 @@ terminal MAS, RESTA, MENOS, DIV, MOD ,POR;
 terminal AND, OR,AAND,OOR;
 terminal CADENA,MENOR,MENORIGUAL,MAYOR;
 terminal MAYORIGUAL,NOT;
-terminal  DOT, SEMICOLON, COLON,COMA, EQUALS;
+terminal  String IDENTIFICADOR, DOT, SEMICOLON, COLON,COMA, EQUALS;
 terminal  NUMERO,DECIMAL, DOUBLE, OPENPAR, CLOSEPAR, OPENBRACE, CLOSEBRACE;
-terminal String IDENTIFICADOR;
 
-non terminal importe, visibilidad, visibilidad_clase, c, clase, body, tipo, m, metodo, args;
+
+non terminal String importe, visibilidad, visibilidad_clase, c, clase, body, primitivo, tipo, m, metodo, args;
 non terminal sentencia, asignacion, stringS, objetoS;
 non terminal intD; 
 non terminal expr, expr_list, expr_part;
 non terminal inicio, expresion, constructor;
 non terminal s2,s3,s10,s11,s13,s14,s15,s20,s21;
-non terminal igualacion,op_logico,expr_logica,signo_logico;
+non terminal String valor,igualacion,op_logico,expr_logica,signo_logico;
 non terminal sentencia_logica, if, while, do_while, while_cicle,switch;
 non terminal method_body, cicle_body, for, switch_body,case,case_group,default;
 non terminal llamada,primitivoS, expresion_simple, llamada_compleja,params;
-non terminal String primitivo;
-non terminal String valor;
+
 
 
 
@@ -87,12 +85,12 @@ s2::=IDENTIFICADOR
 
 
 
-body::= asignacion body
-	|expresion SEMICOLON body
-	|m {:System.out.println("nuevo metodo");:}body
-    |sentencia body
-	|constructor body
-    |visibilidad asignacion body
+body::= asignacion {:"System.out.printl("asignacion body");:} body 
+	|expresion {:"System.out.printl("expresion body");:} SEMICOLON body 
+	|m {:"System.out.printl("metodo body");:} body 
+    |sentencia {:"System.out.printl("sentencia body");:} body
+	|constructor {:"System.out.printl("constructor body");:} body
+    |visibilidad {:"System.out.printl("visibilidad body");:} asignacion body
     |
 	;
 
@@ -104,23 +102,23 @@ visibilidad_clase ::= PUBLIC
 c ::= visibilidad clase
     | clase;
 
-clase ::= CLASS IDENTIFICADOR OPENBRACE body CLOSEBRACE;
+clase ::= CLASS IDENTIFICADOR:n {:System.out.println("Clase llamada: "+n);:} OPENBRACE body CLOSEBRACE;
 
 visibilidad::=visibilidad_clase
 	|PROTECTED
 	;
 
-primitivo::= BYTE {:recorder.setTipo("Byte");:}
-	|SHORT {:recorder.setTipo("Short");:}
-	|INT {:recorder.setTipo("Int");:}
-	|LONG {:recorder.setTipo("Long");:}
-	|FLOAT {:recorder.setTipo("Float");:}
-	|DOUBLE {:recorder.setTipo("Double");:}
-	|BOOLEAN {:recorder.setTipo("Boolean");:}
-	|CHAR {:recorder.setTipo("Char");:}
+primitivo::= BYTE {:System.out.println(" primitivo BYTE");:}
+	|SHORT {:System.out.println("primitivo  SHORT");:}
+	|INT {:System.out.println("primitivo INT");:}
+	|LONG {:System.out.println("primitivo  LONG");:}
+	|FLOAT {:System.out.println("primitivo  FLOAT");:}
+	|DOUBLE {:System.out.println("primitivo  DOUBLE");:}
+	|BOOLEAN {:System.out.println("primitivo  BOOLEAN");:}
+	|CHAR {:System.out.println("primitivo  CHAR");:}
 	;
 
-tipo::=VOID{:System.out.println("void");:};
+tipo::=VOID; 
 
 m ::= visibilidad metodo
 	|visibilidad STATIC metodo
@@ -129,18 +127,18 @@ m ::= visibilidad metodo
 
 
 	primitivoS ::= primitivo s3;
-	stringS ::= STRING s10 {:recorder.setTipo("String");:}; 
+	stringS ::= STRING   s10 {:System.out.println("STRING");:};
 	objetoS ::= IDENTIFICADOR:id s11 {:System.out.println(id);:};
 
-	s3 ::=  IDENTIFICADOR:v {:recorder.addVariable(v);:}
-		| IDENTIFICADOR:v COMA {:recorder.addVariable(v);:} s3
+	s3 ::=  IDENTIFICADOR:id {:System.out.println(id);:}
+		| IDENTIFICADOR:id COMA s3 {:System.out.println(id);:}
 		;
 	
-	s10 ::=  IDENTIFICADOR:v {:recorder.addVariable(v);:}
-		| IDENTIFICADOR:v {:recorder.addVariable(v);:}  COMA s10
+	s10 ::=  IDENTIFICADOR:id {:System.out.println(id);:} 
+		| IDENTIFICADOR:id COMA s10 {:System.out.println(id);:}
 		;
-	s11 ::=  IDENTIFICADOR:v {:recorder.addVariable(v);:}
-		| IDENTIFICADOR:v {:recorder.addVariable(v);:} COMA s11
+	s11 ::=  IDENTIFICADOR:id {:System.out.println(id);:}
+		| IDENTIFICADOR:id COMA s11 {:System.out.println(id);:}
 		;
 
 	expresion ::= primitivoS
@@ -148,9 +146,9 @@ m ::= visibilidad metodo
 	| objetoS
 	;
     
-    expresion_simple::= primitivo:p IDENTIFICADOR:id {:recorder.addSimple(p,id);:}
-            |STRING  IDENTIFICADOR:id {:recorder.addSimple("String",id);:}
-            |IDENTIFICADOR:id IDENTIFICADOR:name {:recorder.addSimple(id,name);:}
+    expresion_simple::= primitivo:p IDENTIFICADOR:id  {:System.out.println(p+" "+id);:}
+            |STRING IDENTIFICADOR:id {:System.out.println(id);:}
+            |IDENTIFICADOR:id IDENTIFICADOR:name  {:System.out.println(name+" "+id);:} 
             ;
 
 	sentencia ::= visibilidad expresion SEMICOLON;
@@ -160,20 +158,20 @@ args::= expresion_simple
 	|
 	;
 
-valor ::= CADENA
-	|IDENTIFICADOR
-	|expr_list
+valor ::= CADENA:c {:System.out.println("valor cadena "+c);:}
+	|IDENTIFICADOR:c {:System.out.println("valor identificador "+c);:}
+	|expr_list:c {:System.out.println("valor lista "+c);:}
 	;
 
 asignacion ::=  expresion igualacion SEMICOLON
-			| expresion EQUALS NEW IDENTIFICADOR:v OPENPAR CLOSEPAR SEMICOLON {:recorder.setValue(v);:};
+			| expresion EQUALS NEW IDENTIFICADOR OPENPAR CLOSEPAR SEMICOLON;
 
-igualacion ::= MAS MAS{:recorder.addToValue(1);:}
-		|MENOS MENOS {:recorder.substractToValue(1);:}
-        |RESTA RESTA {:recorder.substractToValue(1);:}
-		|MAS EQUALS valor:v{:recorder.addToValue(v);:}
-		|MENOS EQUALS valor:v {:recorder.substractToValue(v);:}
-		|EQUALS valor:v {:recorder.setValue(v);:}
+igualacion ::= MAS MAS  {:System.out.println("MAS MAS");:}
+		|MENOS MENOS {:System.out.println("MENOS MENOS");:}
+        |RESTA RESTA {:System.out.println("MENOS MENOS2");:}
+		|MAS EQUALS valor
+		|MENOS EQUALS valor
+		|EQUALS valor
 		;
 
 op_logico::= MENOR
@@ -241,13 +239,13 @@ params::= valor
     |valor COMA params;
 
 
-metodo ::= tipo:t s15 {:System.out.println("tipo "+t);:} 
-	|IDENTIFICADOR:i s15 {:System.out.println("tipo"+i);:}
+metodo ::= tipo  s15 {:System.out.println("tipo void");:}
+	|IDENTIFICADOR:i  s15 {:System.out.println("tipo"+i);:}
 	|STRING s15 {:System.out.println("tipo String");:}
-	|primitivo:p s15 {:System.out.println("tipo "+p);:}
+	|primitivo:p s15 {:System.out.println("tipo "+ p);:}
 	;
 
-s15::= IDENTIFICADOR:n OPENPAR args CLOSEPAR OPENBRACE method_body CLOSEBRACE{:System.out.println("Metodo llamado: "+n);:};
+s15::= IDENTIFICADOR:n {:System.out.println("Metodo llamado: "+n);:} OPENPAR args CLOSEPAR OPENBRACE method_body CLOSEBRACE {:System.out.println("Fin metodo");:};
 
 constructor::=visibilidad s20
     |s20
@@ -261,19 +259,19 @@ cicle_body::= method_body
 	;
 
 
-method_body::= llamada method_body
-    |llamada_compleja method_body
-	|switch method_body
-	|while_cicle method_body
-	|do_while method_body
-	|for method_body
-	|asignacion method_body
-	|sentencia method_body
-    |expresion SEMICOLON method_body
-	|if method_body
-    |IDENTIFICADOR:id igualacion SEMICOLON method_body {:recorder.changeValue(id);:}
-	|RETURN valor
-	|RETURN
+method_body::= llamada {:"System.out.printl("llamada");:} method_body
+    |llamada_compleja {:"System.out.printl("llamada compleja");:} method_body
+	|switch {:"System.out.printl("switch");:} method_body
+	|while_cicle {:"System.out.printl("while");:} method_body
+	|do_while {:"System.out.printl("dowhile");:} method_body
+	|for {:"System.out.printl("for");:} method_body
+	|asignacion {:"System.out.printl("asignacion ");:} method_body
+	|sentencia {:"System.out.printl("sentencia");:} method_body
+    |expresion SEMICOLON {:"System.out.printl("expresion");:} method_body
+	|if {:"System.out.printl("if");:} method_body
+    |IDENTIFICADOR igualacion SEMICOLON {:"System.out.printl("identificador");:} method_body
+	|RETURN valor SEMICOLON {:"System.out.printl("return valor");:}
+	|RETURN SEMICOLON {:"System.out.printl("return");:}
 	|
 	;
 

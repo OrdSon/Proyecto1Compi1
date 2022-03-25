@@ -7,6 +7,7 @@ package Frontend;
 import Parser.Lexer;
 import Parser.Parser;
 import TextLine.TextLineNumber;
+import Util.DataRecorder;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +47,8 @@ public class Marco extends javax.swing.JFrame {
         jTextPane1 = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(400, 400));
+        setMinimumSize(new java.awt.Dimension(0, 600));
+        setPreferredSize(new java.awt.Dimension(400, 600));
 
         jPanel1.setMinimumSize(new java.awt.Dimension(800, 600));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -104,7 +106,10 @@ public class Marco extends javax.swing.JFrame {
             StringReader reader = new StringReader(jTextPane1.getText());
             
             Parser parser = new Parser(new Lexer(reader));
+            DataRecorder recorder = new DataRecorder();
+            parser.setRecprder(recorder);
             parser.parse();
+            recorder.imprimir();
         } catch (Exception ex) {
             Logger.getLogger(Marco.class.getName()).log(Level.SEVERE, null, ex);
         }
