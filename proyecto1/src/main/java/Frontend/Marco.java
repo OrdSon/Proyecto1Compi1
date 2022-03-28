@@ -107,9 +107,8 @@ public class Marco extends javax.swing.JFrame {
             
             Parser parser = new Parser(new Lexer(reader));
             DataRecorder recorder = new DataRecorder();
-            parser.setRecprder(recorder);
             parser.parse();
-            recorder.imprimir();
+            parser.getRecorder().imprimir();
         } catch (Exception ex) {
             Logger.getLogger(Marco.class.getName()).log(Level.SEVERE, null, ex);
         }

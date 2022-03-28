@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * @author ordson
  */
 public class DataRecorder {
+
     private ArrayList<ClassData> clases = new ArrayList<>();
     private ClassData claseActiva;
     private ArrayList<MethodData> metodos = new ArrayList<>();
@@ -21,6 +22,8 @@ public class DataRecorder {
     private ArrayList<VariableData> variables = new ArrayList<>();
     private ArrayList<VariableData> variablesActivas = new ArrayList<>();
     private String tipo;
+    private String tipoMetodo = "";
+    boolean conTipo = false;
 
     public ArrayList<ClassData> getClases() {
         return clases;
@@ -76,6 +79,7 @@ public class DataRecorder {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+        System.out.println("TIPOOOO " + this.tipo);
     }
 
     public void setClaseActiva(String n) {
@@ -104,26 +108,33 @@ public class DataRecorder {
     }
 
     public void setTipoMetodo(String c) {
-        if (this.metodoActivo!=null) {
-            this.metodoActivo.setTipo(c);
+        if (!metodos.isEmpty()) {
+            MethodData temp = metodos.get(metodos.size() - 1);
+            temp.setTipo(c);
         }
     }
 
-    public void setTipo() {
-        if (metodoActivo!=null) {
-            this.metodoActivo.setTipo(tipo);
+    public void setTipoMetodo() {
+        if (this.tipo != null) {
+           this.metodoActivo.setTipo(tipo);
+        }else{
+            System.out.println("Nullll");
         }
     }
 
     public void setValor(String c) {
-        for (VariableData temp : variablesActivas ) {
+        for (VariableData temp : variablesActivas) {
             temp.setValor(c);
         }
     }
 
     public void guardarMetodo() {
-        metodos.add(metodoActivo);
-        metodoActivo=new MethodData();
+        if (this.metodoActivo != null && this.metodoActivo.getNombre() != null && !this.metodoActivo.getNombre().equals("null")) {
+            metodos.add(metodoActivo);
+            metodoActivo = new MethodData();
+            this.conTipo = false;
+        }
+
     }
 
     public void addMetodo(String n) {
@@ -131,15 +142,35 @@ public class DataRecorder {
         metodoActivo.setNombre(n);
     }
 
-
-    public void imprimir(){
-        System.out.println("Clase Activa "+claseActiva.getNombre());
-        for (MethodData metodo: metodos) {
-            System.out.println("Metodo "+metodo.getTipo()+"  "+metodo.getNombre()); 
+    public void imprimir() {
+        System.out.println("Clase Activa " + claseActiva.getNombre());
+        for (MethodData metodo : metodos) {
+            System.out.println("Metodo " + metodo.getTipo() + "  " + metodo.getNombre());
         }
-        for (VariableData variable: variables){
-            System.out.println("Variable "+variable.getTipo()+" "+variable.getNombre()+" "+variable.getValor());
+        for (VariableData variable : variables) {
+            System.out.println("Variable " + variable.getTipo() + " " + variable.getNombre() + " " + variable.getValor());
         }
     }
-    
+
+    public void cerrarMetodo() {
+
+    }
+
+    public void cerrarConstructor() {
+    }
+
+    public void asignarInt() {
+    }
+
+    /**
+     *
+     * protected class prueba {
+     *
+     *
+     *
+     * }
+     *
+     *
+     *
+     */
 }
