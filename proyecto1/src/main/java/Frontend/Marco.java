@@ -79,7 +79,7 @@ public class Marco extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
-        jTextPane1.setMinimumSize(new java.awt.Dimension(100, 600));
+        jTextPane1.setMinimumSize(new java.awt.Dimension(100, 100));
         jScrollPane1.setViewportView(jTextPane1);
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -107,11 +107,14 @@ public class Marco extends javax.swing.JFrame {
             
             Parser parser = new Parser(new Lexer(reader));
             DataRecorder recorder = new DataRecorder();
+            parser.setRecorder(recorder);
             parser.parse();
-            parser.getRecorder().imprimir();
+            recorder.guardarClase();
+            recorder.imprimir();
         } catch (Exception ex) {
             Logger.getLogger(Marco.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     /**
      * @param args the command line arguments

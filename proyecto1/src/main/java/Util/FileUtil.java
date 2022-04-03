@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Util;
 
 import java.io.File;
@@ -18,9 +14,13 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class FileUtil {
 
-    ArrayList<File> archivos = new ArrayList<>();
+    private ArrayList<File> archivos = new ArrayList<>();
 
     public void findFiles(File folder) {
+        this.archivos.clear();
+        if (folder == null) {
+            return;
+        }
         try {
             for (File file : folder.listFiles()) {
                 if (!file.isDirectory()) {
@@ -33,8 +33,8 @@ public class FileUtil {
             }
         } catch (IllegalArgumentException e) {
 
-        }finally {
-            showFileList();
+        } finally {
+
         }
     }
 
@@ -52,8 +52,7 @@ public class FileUtil {
             File archivo = fileChooser.getSelectedFile();
 
             if ((archivo != null)) {
-                if ((archivo.getName().isEmpty())) {
-                    findFiles(archivo);
+                if ((!archivo.getName().isEmpty())) {
                     return archivo;
                 }
             }
@@ -62,8 +61,10 @@ public class FileUtil {
     }
 
     public void showFileList() {
+        int contador = 0;
         for (File archivo : archivos) {
-            System.out.println(archivo.getPath());
+            contador++;
+            System.out.println(contador + " " + archivo.getPath());
         }
     }
 
@@ -78,6 +79,14 @@ public class FileUtil {
             System.out.println("nel");
         }
         return texto.toString();
+    }
+
+    public ArrayList<File> getArchivos() {
+        return archivos;
+    }
+
+    public void setArchivos(ArrayList<File> archivos) {
+        this.archivos = archivos;
     }
 
 }

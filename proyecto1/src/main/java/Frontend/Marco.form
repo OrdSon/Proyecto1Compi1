@@ -98,7 +98,7 @@
             <Component class="javax.swing.JTextPane" name="jTextPane1">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[100, 600]"/>
+                  <Dimension value="[100, 100]"/>
                 </Property>
               </Properties>
             </Component>

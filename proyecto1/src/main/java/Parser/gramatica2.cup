@@ -134,14 +134,14 @@ m ::= visibilidad metodo
 
 
 	primitivoS ::= primitivo s3;
-	stringS ::= STRING   s10 {:System.out.println("STRING"); recorder.setTipo("String");:};
+	stringS ::= STRING   s10  {:System.out.println("STRING"); recorder.setTipo("String");:};
 	objetoS ::= IDENTIFICADOR:id s11 {:System.out.println(id); recorder.setTipo(id);:};
 
 	s3 ::=  IDENTIFICADOR:id {:System.out.println(id); recorder.addVariable(id);:}
 		| IDENTIFICADOR:id COMA s3 {:System.out.println(id);recorder.addVariable(id);:}
 		;
 	
-	s10 ::=  IDENTIFICADOR:id {:System.out.println(id);recorder.addVariable(id);:} 
+	s10 ::=   IDENTIFICADOR:id {:System.out.println(id);recorder.addVariable(id);:} 
 		| IDENTIFICADOR:id COMA s10 {:System.out.println(id);recorder.addVariable(id);:}
 		;
 	s11 ::=  IDENTIFICADOR:id {:System.out.println(id);recorder.addVariable(id);:}
@@ -167,8 +167,8 @@ m ::= visibilidad metodo
 
 	sentencia ::= visibilidad expresion SEMICOLON;
 
-args::= expresion_simple 
-    |   expresion_simple COMA args
+args::= expresion_simple {:recorder.contarArgumento();:}
+    |   expresion_simple {:recorder.contarArgumento();:} COMA args
 	|
 	;
 

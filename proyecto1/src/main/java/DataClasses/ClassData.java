@@ -12,6 +12,8 @@ import java.util.ArrayList;
  */
 public class ClassData {
     private ArrayList<MethodData> metodos;
+    private ArrayList<VariableData> variables;
+    
     private String nombre;
     private String visibilidad;
 
@@ -37,6 +39,14 @@ public class ClassData {
 
     public void setVisibilidad(String visibilidad) {
         this.visibilidad = visibilidad;
+    }
+
+    public ArrayList<VariableData> getVariables() {
+        return variables;
+    }
+
+    public void setVariables(ArrayList<VariableData> variables) {
+        this.variables = variables;
     }
     
 }

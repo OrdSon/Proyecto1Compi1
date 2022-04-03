@@ -4,8 +4,7 @@
  */
 package Main;
 
-import Frontend.Marco;
-import Util.FileUtil;
+import Util.Lector;
 
 /**
  *
@@ -16,8 +15,12 @@ public class Main {
     private String pepe, lol, neneco;
 
     public static void main(String[] args) {
-        Marco marco = new Marco();
-        marco.setVisible(true);
+//        FileUtil fileUtil = new FileUtil();
+//        fileUtil.findFiles(fileUtil.chooseDirectory());
+//        fileUtil.showFileList();
+
+        Lector analizador = new Lector();
+        analizador.leerDosCarpetas();
 
     }
 }

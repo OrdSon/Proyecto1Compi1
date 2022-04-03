@@ -16,14 +16,15 @@ import java.util.ArrayList;
 public class DataRecorder {
 
     private ArrayList<ClassData> clases = new ArrayList<>();
+    
     private ClassData claseActiva;
     private ArrayList<MethodData> metodos = new ArrayList<>();
     private MethodData metodoActivo;
     private ArrayList<VariableData> variables = new ArrayList<>();
     private ArrayList<VariableData> variablesActivas = new ArrayList<>();
     private String tipo;
-    private String tipoMetodo = "";
     boolean conTipo = false;
+    private int argumentos;
 
     public ArrayList<ClassData> getClases() {
         return clases;
@@ -79,32 +80,48 @@ public class DataRecorder {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-        System.out.println("TIPOOOO " + this.tipo);
+        for (VariableData temp : variablesActivas) {
+            if (temp.getTipo() == null) {
+                temp.setTipo(tipo);
+            }
+        }
     }
 
     public void setClaseActiva(String n) {
         this.claseActiva = new ClassData();
-        claseActiva.setNombre(n);
+        this.claseActiva.setNombre(n);
     }
 
     public void addVariable(String id) {
         VariableData temp = new VariableData();
         temp.setTipo(tipo);
         temp.setNombre(id);
-        variablesActivas.add(temp);
+        temp.setClase(claseActiva.getNombre());
+        setearMetodo(temp);
+        this.variablesActivas.add(temp);
+    }
+
+    private void setearMetodo(VariableData temp) {
+        if (this.metodoActivo != null && this.metodoActivo.getNombre() != null) {
+            temp.setMetodo(this.metodoActivo.getNombre());
+            metodoActivo.addVariable(temp);
+        } else {
+            temp.setMetodo(this.claseActiva.getNombre());
+        }
     }
 
     public void cambiarTipo(String tipo) {
-        for (VariableData temp : variablesActivas) {
+        for (VariableData temp : this.variablesActivas) {
             temp.setTipo(tipo);
         }
     }
 
     public void guardar() {
-        for (VariableData temp : variablesActivas) {
-            variables.add(temp);
+        for (VariableData temp : this.variablesActivas) {
+            this.variables.add(temp);
         }
-        variablesActivas.clear();
+        this.variablesActivas.clear();
+        this.tipo = null;
     }
 
     public void setTipoMetodo(String c) {
@@ -116,8 +133,8 @@ public class DataRecorder {
 
     public void setTipoMetodo() {
         if (this.tipo != null) {
-           this.metodoActivo.setTipo(tipo);
-        }else{
+            this.metodoActivo.setTipo(tipo);
+        } else {
             System.out.println("Nullll");
         }
     }
@@ -130,9 +147,12 @@ public class DataRecorder {
 
     public void guardarMetodo() {
         if (this.metodoActivo != null && this.metodoActivo.getNombre() != null && !this.metodoActivo.getNombre().equals("null")) {
+            metodoActivo.setArgumentos(argumentos);
             metodos.add(metodoActivo);
             metodoActivo = new MethodData();
             this.conTipo = false;
+            argumentos = 0;
+            
         }
 
     }
@@ -142,14 +162,41 @@ public class DataRecorder {
         metodoActivo.setNombre(n);
     }
 
+    public void guardarClase(){
+        if (this.claseActiva != null) {
+            claseActiva.setMetodos((ArrayList<MethodData>) metodos.clone());
+            claseActiva.setVariables((ArrayList<VariableData>) variables.clone());
+            clases.add(claseActiva);
+        }
+        clearAll();
+    }
+    
+    private void clearAll(){
+        this.metodoActivo = null;
+        this.metodos.clear();
+        this.claseActiva = null;
+        this.conTipo = false;
+        this.tipo = null;
+        this.variables.clear();
+        this.variablesActivas.clear();
+        this.argumentos = 0;
+    }
     public void imprimir() {
-        System.out.println("Clase Activa " + claseActiva.getNombre());
-        for (MethodData metodo : metodos) {
-            System.out.println("Metodo " + metodo.getTipo() + "  " + metodo.getNombre());
+        for (ClassData clase : clases) {
+            if (clase != null) {
+                System.out.println("Clase : " + clase.getNombre());
+                for (MethodData metodo : clase.getMetodos()) {
+                    System.out.println("Metodo " + metodo.toString());
+                }
+                for (VariableData variable : clase.getVariables()) {
+                    System.out.println("Variable " + variable.getTipo() + " " + variable.getNombre() + " " + variable.getMetodo());
+                }
+            }
         }
-        for (VariableData variable : variables) {
-            System.out.println("Variable " + variable.getTipo() + " " + variable.getNombre() + " " + variable.getValor());
-        }
+    }
+
+    public void contarArgumento() {
+        this.argumentos++;
     }
 
     public void cerrarMetodo() {
@@ -162,15 +209,19 @@ public class DataRecorder {
     public void asignarInt() {
     }
 
-    /**
-     *
-     * protected class prueba {
-     *
-     *
-     *
-     * }
-     *
-     *
-     *
+    /*
+    
+    
+    class prueba{
+ String cadena;
+int numero;
+String cadena2;
+short peque1;
+Objetoo objetito;
+Pele futbolista;
+}
+    
+    
+    
      */
 }
