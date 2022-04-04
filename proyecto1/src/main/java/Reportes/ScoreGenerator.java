@@ -13,30 +13,30 @@ import java.util.ArrayList;
  * @author ordson
  */
 public class ScoreGenerator {
-    private double score = 0;
+    
     public double generarScore(ArrayList<ClassData> lista1, ArrayList<ClassData> lista2, Analizador analizador) {
         /*
         ¡¡¡¡¡¡¡¡FALTA AGREGAR LO DE LOS COMENTARIOSSSSSS!!!!!!!
         */
+        double score = 0;
+        double cuentaVariables1 = getVariableCount(lista1);
+        double cuentaVariables2 = getVariableCount(lista2);
+        double cuentaMetodos1 = getMethodCount(lista1);
+        double cuentaMetodos2 = getMethodCount(lista2);
+        double cuentaClases1 = lista1.size();
+        double cuentaClases2 = lista2.size();        
         
-        int cuentaVariables1 = getVariableCount(lista1);
-        int cuentaVariables2 = getVariableCount(lista2);
-        int cuentaMetodos1 = getMethodCount(lista1);
-        int cuentaMetodos2 = getMethodCount(lista2);
-        int cuentaClases1 = lista1.size();
-        int cuentaClases2 = lista2.size();        
+        double sumatoriaVariables = cuentaVariables1 + cuentaVariables2;
+        double sumatoriaMetodos = cuentaMetodos1+cuentaMetodos2;
+        double sumatoriaClases = cuentaClases1+cuentaClases2;
         
-        int sumatoriaVariables = cuentaVariables1 + cuentaVariables2;
-        int sumatoriaMetodos = cuentaMetodos1+cuentaMetodos2;
-        int sumatoriaClases = cuentaClases1+cuentaClases2;
+        double variablesRepetidas = analizador.getVariablesRepetidas().size();
+        double metodosRepetidos = analizador.getMetodosRepetidos().size();
+        double clasesRepetidas = analizador.getClasesRepetidas().size();
         
-        int variablesRepetidas = analizador.getVariablesRepetidas().size();
-        int metodosRepetidos = analizador.getMetodosRepetidos().size();
-        int clasesRepetidas = analizador.getClasesRepetidas().size();
-        
-        score += (variablesRepetidas/(sumatoriaVariables)*0.25);
-        score += (metodosRepetidos/(sumatoriaMetodos)*0.25);
-        score += (clasesRepetidas/(sumatoriaClases)*0.25);
+        score+= ((variablesRepetidas/(sumatoriaVariables))*0.25);
+        score+= ((metodosRepetidos/(sumatoriaMetodos))*0.25);
+        score+= ((clasesRepetidas/(sumatoriaClases))*0.25);
         
         return score;
     }
@@ -57,7 +57,5 @@ public class ScoreGenerator {
         return total;
     }
 
-    public double getScore() {
-        return score;
-    }
+
 }

@@ -7,6 +7,7 @@ package Util;
 import DataClasses.ClassData;
 import DataClasses.MethodData;
 import DataClasses.VariableData;
+import Reportes.ScoreGenerator;
 import Results.MethodResult;
 import Results.VariableResult;
 import java.util.ArrayList;
@@ -21,9 +22,12 @@ public class Analizador {
     private ArrayList<VariableResult> variablesRepetidas = new ArrayList<>();
     private ArrayList<MethodResult> metodosRepetidos = new ArrayList<>();
     private ArrayList<ClassData> clasesRepetidas = new ArrayList<>();
+    private ArrayList<ClassData> lista1 = new ArrayList<>();
+    private ArrayList<ClassData> lista2 = new ArrayList<>();
     private double score = 0;
     public void analizarTodo(ArrayList<ClassData> lista1, ArrayList<ClassData> lista2) {
-
+        this.lista1=lista1;
+        this.lista2=lista2;
         for (ClassData clase1 : lista1) {
 
             for (ClassData clase2 : lista2) {
@@ -33,6 +37,8 @@ public class Analizador {
             }
 
         }
+        
+        System.out.println("SCOREE "+score);
         corregirRepeticiones();
         imprimir();
 
@@ -283,6 +289,22 @@ public class Analizador {
 
     public double getScore() {
         return score;
+    }
+
+    public ArrayList<ClassData> getLista1() {
+        return lista1;
+    }
+
+    public void setLista1(ArrayList<ClassData> lista1) {
+        this.lista1 = lista1;
+    }
+
+    public ArrayList<ClassData> getLista2() {
+        return lista2;
+    }
+
+    public void setLista2(ArrayList<ClassData> lista2) {
+        this.lista2 = lista2;
     }
     
     

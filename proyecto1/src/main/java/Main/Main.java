@@ -4,6 +4,7 @@
  */
 package Main;
 
+import Frontend.Start;
 import Util.Lector;
 
 /**
@@ -19,8 +20,10 @@ public class Main {
 //        fileUtil.findFiles(fileUtil.chooseDirectory());
 //        fileUtil.showFileList();
 
-        Lector analizador = new Lector();
-        analizador.leerDosCarpetas();
+//        Lector analizador = new Lector();
+//        analizador.leerDosCarpetas();
+        Start start = new Start();
+        start.setVisible(true);
 
     }
 }

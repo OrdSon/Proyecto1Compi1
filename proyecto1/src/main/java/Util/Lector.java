@@ -24,7 +24,7 @@ public class Lector {
 
     DataRecorder recorder = new DataRecorder();
 
-    FileUtil fileUtil = new FileUtil();
+    private FileUtil fileUtil;
     String primerDirectorio;
     String segundoDirectorio;
     ArrayList<File> proyecto1;
@@ -32,18 +32,16 @@ public class Lector {
     ArrayList<ClassData> clasesProyecto1;
     ArrayList<ClassData> clasesProyecto2;
     Analizador analizador = new Analizador();
-    ScoreGenerator scoreGenerator = new ScoreGenerator();
 
-    public void leerDosCarpetas() {
-        
-        /**Esta parte debe ser cambiada, para enviar la ubicacion desde la interfaz*/
-        File temp1 = fileUtil.chooseDirectory();
-        primerDirectorio = temp1.getPath();
-        File temp2 = fileUtil.chooseDirectory();
-        segundoDirectorio = temp2.getPath();
-        
-        
-        
+    public Analizador getAnalizador() {
+        return analizador;
+    }
+
+    public void setAnalizador(Analizador analizador) {
+        this.analizador = analizador;
+    }
+
+    public void leerDosCarpetas(File temp1, File temp2) {
         fileUtil.findFiles(temp1);
         proyecto1 = (ArrayList<File>) fileUtil.getArchivos().clone();
         fileUtil.findFiles(temp2);
@@ -94,6 +92,14 @@ public class Lector {
                 }
             }
         }
+    }
+
+    public FileUtil getFileUtil() {
+        return fileUtil;
+    }
+
+    public void setFileUtil(FileUtil fileUtil) {
+        this.fileUtil = fileUtil;
     }
     
     
