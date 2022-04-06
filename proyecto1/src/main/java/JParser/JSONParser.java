@@ -221,11 +221,11 @@ public class JSONParser extends java_cup.runtime.lr_parser {
     protected int error_sync_size(){
         return 1;
     }
-    DataRecorder recorder= new DataRecorder();
-    public DataRecorder getRecorder(){
+    JSONRecorder recorder;
+    public JSONRecorder getRecorder(){
         return this.recorder;
     }
-    public void setRecorder(DataRecorder recorder){
+    public void setRecorder(JSONRecorder recorder){
     this.recorder = recorder;
 }
 //
@@ -379,7 +379,7 @@ class CUP$JSONParser$actions {
 		int nleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()).left;
 		int nright = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()).right;
 		String n = (String)((java_cup.runtime.Symbol) CUP$JSONParser$stack.peek()).value;
-		System.out.println("El score es: "+n);
+		System.out.println("El score es: "+n); recorder.setScore(n);
               CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("score",0, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-2)), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
             }
           return CUP$JSONParser$result;
@@ -391,7 +391,7 @@ class CUP$JSONParser$actions {
 		int nleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()).left;
 		int nright = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()).right;
 		String n = (String)((java_cup.runtime.Symbol) CUP$JSONParser$stack.peek()).value;
-		System.out.println("El score es: "+n);
+		System.out.println("El score es: "+n); recorder.setScore(n);
               CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("score",0, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-2)), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
             }
           return CUP$JSONParser$result;
@@ -412,7 +412,7 @@ class CUP$JSONParser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).value;
-System.out.println("funcion: "+c);
+System.out.println("funcion: "+c); recorder.append(c+",");
               CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("NT$0",17, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
             }
           return CUP$JSONParser$result;
@@ -438,7 +438,7 @@ System.out.println("funcion: "+c);
 		int cleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$JSONParser$stack.peek()).value;
-		System.out.println("funcion: "+c);
+		System.out.println("funcion: "+c);recorder.append(c);
               CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("cadenaBody",16, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
             }
           return CUP$JSONParser$result;
@@ -477,7 +477,7 @@ System.out.println("funcion: "+c);
 		int cleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-2)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-2)).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-2)).value;
-		System.out.println("Clase "+c);
+		System.out.println("Clase "+c);recorder.addClase(c);
               CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("className",3, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-6)), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
             }
           return CUP$JSONParser$result;
@@ -519,7 +519,7 @@ System.out.println("funcion: "+c);
 		int tleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-6)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-6)).right;
 		String t = (String)((java_cup.runtime.Symbol) CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-6)).value;
-		System.out.println("Variable: "+n+" Tipo: "+t);
+		System.out.println("Variable: "+n+" Tipo: "+t); recorder.addVariable(n,t);
               CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("singleVar",6, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-16)), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
             }
           return CUP$JSONParser$result;
@@ -564,7 +564,8 @@ System.out.println("funcion: "+c);
 		int dleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).right;
 		String d = (String)((java_cup.runtime.Symbol) CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).value;
-		System.out.println("Metodo: "+c+ " Tipo: "+t+ " Parametros: "+d);
+		System.out.println("Metodo: "+c+ "Tipo: "+t+ "Parametros: "+d);
+                recorder.addMetodo(c,t,d);
               CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("singleMetodo",9, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-16)), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
             }
           return CUP$JSONParser$result;

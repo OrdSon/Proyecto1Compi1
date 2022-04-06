@@ -9,6 +9,7 @@ package Frontend;
 
 import JParser.JSONLexer;
 import JParser.JSONParser;
+import JParser.JSONRecorder;
 import TextLine.TextLineNumber;
 import Util.JSONGenerator;
 import Util.Lector;
@@ -23,7 +24,9 @@ import java.util.logging.Logger;
  */
 public class MainFrame extends javax.swing.JFrame {
     private Lector lector;
+    JSONRecorder recorder = new JSONRecorder();
     JSONGenerator generator = new JSONGenerator();
+    
     public MainFrame(Lector lector, File proyecto1, File proyecto2) {
         this.lector = lector;
         lector.leerDosCarpetas(proyecto1, proyecto2);
@@ -166,7 +169,10 @@ public class MainFrame extends javax.swing.JFrame {
             StringReader reader = new StringReader(jTextPane1.getText());
             JSONLexer lexer = new JSONLexer(reader);
             JSONParser parser = new JSONParser(lexer);
+            parser.setRecorder(recorder);
             parser.parse();
+            System.out.println("IMPRESIONNNN");
+            recorder.imprimir();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
