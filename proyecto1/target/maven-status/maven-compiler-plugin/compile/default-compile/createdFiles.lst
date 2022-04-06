@@ -5,8 +5,10 @@ Results/ClassResult.class
 Parser/Lexer.class
 DataClasses/Ocurrencia.class
 DataClasses/ClassData.class
+Frontend/MainFrame$2.class
 DataClasses/MethodData.class
 Frontend/Start$4.class
+JParser/JSONLexer.class
 Parser/ParserSym.class
 Util/Lector.class
 Util/JSONGenerator.class
@@ -20,6 +22,7 @@ Frontend/Marco$2.class
 Parser/sym.class
 TextLine/TextLineNumber$1.class
 DataClasses/prueba.class
+JParser/JSONParser$CUP$JSONParser$actions.class
 TextLine/TextLineNumber.class
 Results/VariableResult.class
 Frontend/Marco$1.class
@@ -27,8 +30,10 @@ Parser/Parser$CUP$Parser$actions.class
 Parser/Parser.class
 Util/Comparador.class
 Frontend/MainFrame$1.class
+JParser/JSONParser.class
 Frontend/Start$3.class
 Results/MethodResult.class
 Frontend/MainFrame.class
 Reportes/JSONGenerator.class
+JParser/JSONParserSym.class
 Frontend/Start$1.class

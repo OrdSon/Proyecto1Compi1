@@ -34,12 +34,12 @@ public class JSONGenerator {
         System.out.println("SCORE GENERADOOO "+score);
         StringBuilder sb = new StringBuilder();
         sb.append("{ \n");
-        sb.append("\"Score\":").append(score).append(",").append("\n");        
-        sb.append("\"Clases\":[ \n");
+        sb.append("Score:").append(score).append(",").append("\n");        
+        sb.append("Clases:[ \n");
    
         for (int i = 0; i < analizador.getClasesRepetidas().size(); i++) {
             ClassData claseRepetida = analizador.getClasesRepetidas().get(i);
-            sb.append("\t{\"Nombre\":").append("\"").append(claseRepetida.getNombre()).append("\"}");
+            sb.append("\t{Nombre:").append("\"").append(claseRepetida.getNombre()).append("\"}");
             if (i<analizador.getClasesRepetidas().size()-1) {
                 sb.append(", \n");
             }else{
@@ -47,13 +47,13 @@ public class JSONGenerator {
             }
         }
         sb.append(" \t], \n");
-        sb.append("\"Variables\":[ \n");
+        sb.append("Variables:[ \n");
         
         for (int i = 0; i < analizador.getVariablesRepetidas().size(); i++) {
             VariableResult variable = analizador.getVariablesRepetidas().get(i);
-            sb.append("\t {\"Nombre\":").append("\"").append(variable.getNombre()).append("\"").append(",");
-            sb.append("\"Tipo\":").append("\"").append(variable.getTipo()).append("\"").append(",");
-            sb.append("\"Funcion\":\"");
+            sb.append("\t {Nombre:").append("\"").append(variable.getNombre()).append("\"").append(",");
+            sb.append("Tipo:").append("\"").append(variable.getTipo()).append("\"").append(",");
+            sb.append("Funcion:\"");
             for (int j = 0; j < variable.getMetodos().size(); j++) {
                 String metodo = variable.getMetodos().get(j);
                 sb.append(metodo);
@@ -70,12 +70,12 @@ public class JSONGenerator {
             }
         }
         sb.append("\n");
-        sb.append("\"Metodos\":[ \n");
+        sb.append("Metodos:[ \n");
         for (int i = 0; i < analizador.getMetodosRepetidos().size(); i++) {
             MethodResult metodo = analizador.getMetodosRepetidos().get(i);
-            sb.append("\t {\"Nombre\":").append("\"").append(metodo.getMetodo().getNombre()).append("\"").append(",");
-            sb.append("\"Tipo\":").append("\"").append(metodo.getMetodo().getTipo()).append("\"").append(",");
-            sb.append("\"Parametros\":").append(metodo.getMetodo().getArgumentos());
+            sb.append("\t {Nombre:").append("\"").append(metodo.getMetodo().getNombre()).append("\"").append(",");
+            sb.append("Tipo:").append("\"").append(metodo.getMetodo().getTipo()).append("\"").append(",");
+            sb.append("Parametros:").append(metodo.getMetodo().getArgumentos());
             sb.append("}");
             if (i<analizador.getMetodosRepetidos().size()-1) {
                 sb.append(",\n");

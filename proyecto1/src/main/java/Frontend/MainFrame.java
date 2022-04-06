@@ -4,9 +4,18 @@
  */
 package Frontend;
 
+
+//import JSONParser.JSONParser;
+
+import JParser.JSONLexer;
+import JParser.JSONParser;
+import TextLine.TextLineNumber;
 import Util.JSONGenerator;
 import Util.Lector;
 import java.io.File;
+import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,6 +30,8 @@ public class MainFrame extends javax.swing.JFrame {
         generator.setAnalizador(lector.getAnalizador());
         initComponents();
         this.setVisible(true);
+        TextLineNumber textLineNumber = new TextLineNumber(jTextPane1);
+        jScrollPane1.setRowHeaderView(textLineNumber);
         mostrarJSON();
     }
     /**
@@ -28,10 +39,11 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        
     }
     
     private void mostrarJSON(){
-        jTextArea2.setText(generator.generarJSON());
+        jTextPane1.setText(generator.generarJSON());
     }
 
     /**
@@ -51,11 +63,12 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jTextPane1 = new javax.swing.JTextPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,9 +94,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane1.setViewportView(jTextArea2);
+        jScrollPane1.setViewportView(jTextPane1);
 
         jPanel6.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -120,6 +131,15 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("File");
+
+        jMenuItem1.setText("Escanear json");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -140,6 +160,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            StringReader reader = new StringReader(jTextPane1.getText());
+            JSONLexer lexer = new JSONLexer(reader);
+            JSONParser parser = new JSONParser(lexer);
+            parser.parse();
+        } catch (Exception ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,6 +211,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -189,8 +221,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 
     public Lector getLector() {

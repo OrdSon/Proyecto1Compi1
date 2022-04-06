@@ -1,0 +1,170 @@
+package Parser;
+import java_cup.runtime.*;
+import Util.DataRecorder;
+
+//1. user code
+class JSONParser;
+
+action code{:
+
+:}
+
+parser code {://código que modifica el comportamiento del parser [sobreescribiendo o creado métodos]    
+    public JSONParser(JSONLexer lexer){//nuevo constructor
+        super(lexer);        
+    }    
+    public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+    
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        System.out.println("El error es el simbolo: " + JSONParserSym.terminalNames[cur_token.sym]);
+        System.out.println(String.format("En la posicion: %d, %d", cur_token.left, cur_token.right));
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        if (cur_token.sym == JSONParserSym.EOF) {
+            System.out.println("public void unrecoveredsyntax_error");
+        }
+    }
+    protected int error_sync_size(){
+        return 1;
+    }
+    DataRecorder recorder= new DataRecorder();
+    public DataRecorder getRecorder(){
+        return this.recorder;
+    }
+    public void setRecorder(DataRecorder recorder){
+    this.recorder = recorder;
+}
+//
+:}//
+
+
+terminal CLASES;
+terminal SCORE;
+terminal VARIABLES;
+terminal METODOS;
+terminal COMENTARIOS;
+terminal NOMBRE;
+terminal TIPO;
+terminal FUNCION;
+terminal PARAMETROS;
+terminal TEXTO;
+terminal String IDENTIFICADOR;
+terminal COLON;
+terminal COMA;
+terminal OPENBRACE;
+terminal CLOSEBRACE;
+terminal OPENBRACKET;
+terminal CLOSEBRACKET;
+terminal String CADENA;
+terminal String NUMERO;
+terminal String DECIMAL;
+terminal COMILLA;
+
+
+non terminal score;
+non terminal clases;
+non terminal classBody;
+non terminal className;
+non terminal variables;
+non terminal varBody;
+non terminal singleVar;
+non terminal metodos;
+non terminal metodosBody;
+non terminal singleMetodo;
+non terminal comentarios;
+non terminal comentarioBody;
+non terminal singleComment;
+non terminal inicio;
+non terminal cuerpo;
+non terminal cadena;
+non terminal cadenaBody;
+
+
+
+
+start with inicio;
+
+inicio ::= OPENBRACE cuerpo CLOSEBRACE;
+
+cuerpo::= score COMA cuerpo
+    |clases COMA cuerpo
+    |variables COMA cuerpo
+    |metodos COMA cuerpo
+    |comentarios COMA cuerpo
+    |clases
+    |variables
+    |metodos
+    |comentarios
+    |
+    ;
+
+score::= SCORE COLON DECIMAL:n {:System.out.println("El score es: "+n);:}
+|SCORE COLON NUMERO:n {:System.out.println("El score es: "+n);:}
+;
+
+
+cadena::= COMILLA cadenaBody COMILLA;
+cadenaBody::= CADENA:c COMA {:System.out.println("funcion: "+c);:} cadenaBody
+    |CADENA:c {:System.out.println("funcion: "+c);:}
+;
+
+clases::=  CLASES COLON OPENBRACKET classBody CLOSEBRACKET;
+
+classBody ::= className COMA classBody 
+    |className
+    ;
+
+className ::= OPENBRACE NOMBRE COLON COMILLA CADENA:c COMILLA CLOSEBRACE {:System.out.println("Clase "+c);:};
+
+variables ::= VARIABLES COLON OPENBRACKET varBody CLOSEBRACKET;
+
+varBody ::= singleVar COMA varBody
+    |singleVar
+;
+
+singleVar::=OPENBRACE NOMBRE COLON COMILLA CADENA:n COMILLA COMA TIPO COLON COMILLA CADENA:t COMILLA COMA FUNCION COLON cadena CLOSEBRACE 
+{:System.out.println("Variable: "+n+" Tipo: "+t);:}
+;
+
+metodos::= METODOS COLON OPENBRACKET metodosBody CLOSEBRACKET;
+metodosBody ::= singleMetodo COMA metodosBody
+    |singleMetodo
+;
+
+singleMetodo ::= OPENBRACE NOMBRE COLON COMILLA CADENA:c COMILLA COMA TIPO COLON COMILLA CADENA:t COMILLA COMA PARAMETROS COLON NUMERO:d CLOSEBRACE
+{:System.out.println("Metodo: "+n+ "Tipo: "+t+ "Parametros: "+d);:}
+;
+
+comentarios::= COMENTARIOS COLON OPENBRACKET comentarioBody CLOSEBRACKET;
+comentarioBody::= singleComment COMA comentarioBody
+    |singleComment
+;
+singleComment::= OPENBRACE TEXTO COLON CADENA CLOSEBRACE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

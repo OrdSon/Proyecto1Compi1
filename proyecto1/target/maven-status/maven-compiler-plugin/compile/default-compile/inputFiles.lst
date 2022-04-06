@@ -6,9 +6,12 @@
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/DataClasses/MethodData.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Results/VariableResult.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Frontend/MainFrame.java
+/home/ordson/NetBeansProjects/proyecto1/src/main/java/JParser/JSONLexer.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Parser/Lexer.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Results/ClassResult.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/DataClasses/ClassData.java
+/home/ordson/NetBeansProjects/proyecto1/src/main/java/JParser/JSONParser.java
+/home/ordson/NetBeansProjects/proyecto1/src/main/java/JParser/JSONParserSym.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Util/DataRecorder.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Util/Lector.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Reportes/ScoreGenerator.java
