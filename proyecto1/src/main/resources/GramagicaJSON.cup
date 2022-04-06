@@ -1,4 +1,4 @@
-package Parser;
+package JParser;
 import java_cup.runtime.*;
 import Util.DataRecorder;
 
@@ -34,11 +34,11 @@ parser code {://código que modifica el comportamiento del parser [sobreescribie
     protected int error_sync_size(){
         return 1;
     }
-    DataRecorder recorder= new DataRecorder();
-    public DataRecorder getRecorder(){
+    JSONRecorder recorder;
+    public JSONRecorder getRecorder(){
         return this.recorder;
     }
-    public void setRecorder(DataRecorder recorder){
+    public void setRecorder(JSONRecorder recorder){
     this.recorder = recorder;
 }
 //
@@ -105,14 +105,14 @@ cuerpo::= score COMA cuerpo
     |
     ;
 
-score::= SCORE COLON DECIMAL:n {:System.out.println("El score es: "+n);:}
-|SCORE COLON NUMERO:n {:System.out.println("El score es: "+n);:}
+score::= SCORE COLON DECIMAL:n {:System.out.println("El score es: "+n); recorder.setScore(n);:}
+|SCORE COLON NUMERO:n {:System.out.println("El score es: "+n); recorder.setScore(n);:}
 ;
 
 
 cadena::= COMILLA cadenaBody COMILLA;
-cadenaBody::= CADENA:c COMA {:System.out.println("funcion: "+c);:} cadenaBody
-    |CADENA:c {:System.out.println("funcion: "+c);:}
+cadenaBody::= CADENA:c COMA {:System.out.println("funcion: "+c); recorder.append(c+",");:} cadenaBody
+    |CADENA:c {:System.out.println("funcion: "+c);recorder.append(c):}
 ;
 
 clases::=  CLASES COLON OPENBRACKET classBody CLOSEBRACKET;
@@ -121,7 +121,7 @@ classBody ::= className COMA classBody
     |className
     ;
 
-className ::= OPENBRACE NOMBRE COLON COMILLA CADENA:c COMILLA CLOSEBRACE {:System.out.println("Clase "+c);:};
+className ::= OPENBRACE NOMBRE COLON COMILLA CADENA:c COMILLA CLOSEBRACE {:System.out.println("Clase "+c);recorder.addClase(n);:};
 
 variables ::= VARIABLES COLON OPENBRACKET varBody CLOSEBRACKET;
 
@@ -130,7 +130,7 @@ varBody ::= singleVar COMA varBody
 ;
 
 singleVar::=OPENBRACE NOMBRE COLON COMILLA CADENA:n COMILLA COMA TIPO COLON COMILLA CADENA:t COMILLA COMA FUNCION COLON cadena CLOSEBRACE 
-{:System.out.println("Variable: "+n+" Tipo: "+t);:}
+{:System.out.println("Variable: "+n+" Tipo: "+t); recorder.addVariable(n,t);:}
 ;
 
 metodos::= METODOS COLON OPENBRACKET metodosBody CLOSEBRACKET;
@@ -139,7 +139,7 @@ metodosBody ::= singleMetodo COMA metodosBody
 ;
 
 singleMetodo ::= OPENBRACE NOMBRE COLON COMILLA CADENA:c COMILLA COMA TIPO COLON COMILLA CADENA:t COMILLA COMA PARAMETROS COLON NUMERO:d CLOSEBRACE
-{:System.out.println("Metodo: "+n+ "Tipo: "+t+ "Parametros: "+d);:}
+{:System.out.println("Metodo: "+n+ "Tipo: "+t+ "Parametros: "+d);recorder.addMetodo(n,t,d);:}
 ;
 
 comentarios::= COMENTARIOS COLON OPENBRACKET comentarioBody CLOSEBRACKET;
