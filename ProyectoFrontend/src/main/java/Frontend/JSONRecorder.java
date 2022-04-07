@@ -2,10 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package JParser;
+package Frontend;
 
-import DataClasses.MethodData;
-import DataClasses.VariableData;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +16,7 @@ public class JSONRecorder {
     ArrayList<VariableData> variables = new ArrayList<>();
     StringBuilder string = new StringBuilder();
     String score;
-    
+    private String error;
     
     public void addClase(String clase){
         clases.add(clase);
@@ -72,6 +70,41 @@ public class JSONRecorder {
             System.out.println(metodo.toString());
         }
     }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
     
+    public String getClases(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("** \n");
+        for (String clase : clases) {
+            sb.append("\n").append("Clase: ").append(clase);
+        }
+        sb.append(" \n **");
+        return sb.toString();
+    }
     
+    public String getVariables(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("***");
+        for (VariableData variable : variables) {
+            sb.append("\n").append(variable.toString());
+        }
+        sb.append("\n").append("***");
+        return sb.toString();
+    }
+    public String getMetodos(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("****");
+        for (MethodData metodo: metodos) {
+            sb.append("\n").append(metodo.toString());
+        }
+        sb.append("****");
+        return sb.toString();
+    }
 }

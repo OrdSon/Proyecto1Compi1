@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DataClasses;
+package Frontend;
 
 /**
  *
@@ -58,13 +58,21 @@ public class VariableData {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("VariableData{");
+        sb.append("Variable:{");
         sb.append("nombre=").append(nombre);
-        sb.append(", tipo=").append(tipo);
-        sb.append(", valor=").append(valor);
-        sb.append(", clase=").append(clase);
-        sb.append(", metodo=").append(metodo);
-        sb.append('}');
+        if (tipo !=null)  {
+            sb.append(", tipo=").append(tipo);
+        }
+        if (valor != null) {
+            sb.append(", valor=").append(valor);
+        }
+        if (clase != null) {
+            sb.append(", clase=").append(clase);
+        }
+        if (metodo != null) {
+            sb.append(", metodo=").append(metodo);
+        }
+        sb.append("}");
         return sb.toString();
     }
     

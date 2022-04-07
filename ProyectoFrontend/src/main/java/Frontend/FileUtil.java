@@ -1,7 +1,9 @@
-package Util;
+package Frontend;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
@@ -40,7 +42,7 @@ public class FileUtil {
 
     public File chooseDirectory() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos JAVA", "java");
         fileChooser.setFileFilter(filtro);
@@ -88,5 +90,26 @@ public class FileUtil {
     public void setArchivos(ArrayList<File> archivos) {
         this.archivos = archivos;
     }
+    public void guardarJson(String json){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int accion = fileChooser.showSaveDialog(fileChooser);
+        if (accion!= JFileChooser.CANCEL_OPTION) {
+            try {
 
+                Files.writeString(fileChooser.getSelectedFile().toPath(),json);
+            } catch (IOException e) {
+            }
+        }
+    }
+    
+    public String cargarJson(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int accion = fileChooser.showOpenDialog(fileChooser);
+        if (accion != JFileChooser.CANCEL_OPTION) {
+            return getFileText(fileChooser.getSelectedFile());
+        }
+        return "";
+    }
 }

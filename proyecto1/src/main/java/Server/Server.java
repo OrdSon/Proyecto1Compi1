@@ -36,17 +36,24 @@ public class Server {
     ArrayList<File> archivos = new ArrayList<>();
     boolean impreso;
     
-    public void recibirJson(ServerSocket socket){
-        try {
+    public void recibirJson(ServerSocket server){
+       try {
+            archivos.clear();
             System.out.println("Esperando conexion");
-            Socket socket2 = socket.accept();
+            Socket socket = server.accept();
             System.out.println("conectado a " + socket);
-            InputStream inputStream = socket2.getInputStream();
+            InputStream inputStream = socket.getInputStream();
             ObjectInputStream flujoEntrada = new ObjectInputStream(inputStream);
-            String mensaje = flujoEntrada.readUTF();
-            System.out.println(mensaje);
+            String archivos =  flujoEntrada.readUTF();
+            System.out.println(archivos);
+            
+                ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
+                os.writeUTF("SATISFACTORIO");
+                os.close();
+            
             flujoEntrada.close();
-
+            imprimir();
+            socket.close();
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }

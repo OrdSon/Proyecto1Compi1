@@ -41,8 +41,10 @@ public class ConsolaServer extends javax.swing.JFrame implements Runnable{
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setText("¡Servidor en linea!");
         jScrollPane1.setViewportView(jTextArea1);
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -106,13 +108,11 @@ public class ConsolaServer extends javax.swing.JFrame implements Runnable{
     public void run() {
         try {
             ServerSocket socket = new ServerSocket(9999);
-            ServerSocket socket2 = new ServerSocket(9696);
             
             server.setServerSocket(socket);
             while (true) {
                 
                 server.getData();
-                server.recibirJson(socket2);
             }
         } catch (IOException ex) {
             Logger.getLogger(ConsolaServer.class.getName()).log(Level.SEVERE, null, ex);

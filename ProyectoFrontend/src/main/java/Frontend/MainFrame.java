@@ -4,29 +4,38 @@
  */
 package Frontend;
 
-
 //import JSONParser.JSONParser;
-
+/*
 import JParser.JSONLexer;
 import JParser.JSONParser;
 import JParser.JSONRecorder;
 import TextLine.TextLineNumber;
 import Util.JSONGenerator;
-import Util.Lector;
+import Util.Lector;*/
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.StringReader;
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ordson
  */
 public class MainFrame extends javax.swing.JFrame {
-    private Lector lector;
+    String mensaje="";
     JSONRecorder recorder = new JSONRecorder();
-    JSONGenerator generator = new JSONGenerator();
-    
+    FileUtil fileUtil = new FileUtil();
+    /*private Lector lector;
+    JSONRecorder recorder = new JSONRecorder();
+    JSONGenerator generator = new JSONGenerator();*/
+ /*
     public MainFrame(Lector lector, File proyecto1, File proyecto2) {
         this.lector = lector;
         lector.leerDosCarpetas(proyecto1, proyecto2);
@@ -36,19 +45,47 @@ public class MainFrame extends javax.swing.JFrame {
         TextLineNumber textLineNumber = new TextLineNumber(jTextPane1);
         jScrollPane1.setRowHeaderView(textLineNumber);
         mostrarJSON();
-    }
+    }*/
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
-        
+        TextLineNumber textLineNumber = new TextLineNumber(txtJson);
+        jScrollPane1.setRowHeaderView(textLineNumber);
+        TextLineNumber textLine = new TextLineNumber(txtErrores);
+        jScrollPane2.setRowHeaderView(textLine);
+        TextLineNumber textLine3 = new TextLineNumber(jTextPane1);
+        jScrollPane3.setRowHeaderView(textLine3);
+
     }
     
+    public MainFrame(String mensaje) {
+        initComponents();
+        this.setVisible(true);
+        TextLineNumber textLineNumber = new TextLineNumber(txtJson);
+        jScrollPane1.setRowHeaderView(textLineNumber);
+        TextLineNumber textLineNumber2 = new TextLineNumber(txtErrores);
+        jScrollPane2.setRowHeaderView(textLineNumber2);
+        TextLineNumber textLine3 = new TextLineNumber(jTextPane1);
+        jScrollPane3.setRowHeaderView(textLine3);
+        this.mensaje = mensaje;
+        
+
+    }
+    public void mostrarJson(){
+        JOptionPane.showMessageDialog(this, "Tarea realizada con exito");
+        txtJson.setText(mensaje);
+    }
+    public void mostrarErrores(){
+        JOptionPane.showMessageDialog(this, "Se han encontrado errores \n Dirijase a la pestaña de errores para mas detalles");
+        txtErrores.setText(mensaje);
+    }
+    /*  
     private void mostrarJSON(){
         jTextPane1.setText(generator.generarJSON());
     }
-
+     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,46 +95,58 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu3 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        jTextPane1 = new javax.swing.JTextPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
-        jPanel4 = new javax.swing.JPanel();
+        txtJson = new javax.swing.JTextPane();
         jPanel5 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtErrores = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+
+        jMenu3.setText("jMenu3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         jPanel1.setToolTipText("");
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 600));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Consola")));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Consola"), "Consola", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu Condensed", 0, 15))); // NOI18N
+        jPanel2.setFont(new java.awt.Font("Ubuntu Condensed", 0, 15)); // NOI18N
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        jTextPane1.setMinimumSize(new java.awt.Dimension(7, 150));
+        jTextPane1.setPreferredSize(new java.awt.Dimension(7, 150));
+        jScrollPane3.setViewportView(jTextPane1);
 
         jPanel2.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
+        jTabbedPane1.setFont(new java.awt.Font("Ubuntu Condensed", 0, 15)); // NOI18N
+
         jPanel3.setLayout(new java.awt.BorderLayout());
 
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setViewportView(jTextPane1);
+        txtJson.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        jScrollPane1.setViewportView(txtJson);
 
         jPanel6.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -105,47 +154,84 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("JSON", jPanel3);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 596, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 245, Short.MAX_VALUE)
-        );
+        jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jTabbedPane1.addTab("tab2", jPanel4);
+        jScrollPane2.setViewportView(txtErrores);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 596, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 245, Short.MAX_VALUE)
-        );
+        jPanel5.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane1.addTab("tab3", jPanel5);
+        jTabbedPane1.addTab("ERRORES", jPanel5);
 
         jPanel1.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
-        jMenu1.setText("File");
+        jMenu1.setText("Archivo");
+        jMenu1.setFont(new java.awt.Font("Ubuntu Condensed", 1, 14)); // NOI18N
 
-        jMenuItem1.setText("Escanear json");
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setFont(new java.awt.Font("Ubuntu Condensed", 0, 14)); // NOI18N
+        jMenuItem2.setText("Guardar JSON");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem3.setFont(new java.awt.Font("Ubuntu Condensed", 0, 14)); // NOI18N
+        jMenuItem3.setText("Cargar JSON");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("RESULT");
+        jMenu2.setFont(new java.awt.Font("Ubuntu Condensed", 1, 14)); // NOI18N
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem1.setFont(new java.awt.Font("Ubuntu Condensed", 0, 14)); // NOI18N
+        jMenuItem1.setText("Escanear JSON");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu2.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu1);
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem4.setFont(new java.awt.Font("Ubuntu Condensed", 0, 14)); // NOI18N
+        jMenuItem4.setText("Ver clases");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
 
-        jMenu2.setText("Edit");
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem5.setFont(new java.awt.Font("Ubuntu Condensed", 0, 14)); // NOI18N
+        jMenuItem5.setText("Ver metodos");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem6.setFont(new java.awt.Font("Ubuntu Condensed", 0, 14)); // NOI18N
+        jMenuItem6.setText("Ver variables");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -165,18 +251,57 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        try {
-            StringReader reader = new StringReader(jTextPane1.getText());
+        
+         try {
+            StringReader reader = new StringReader(txtJson.getText());
             JSONLexer lexer = new JSONLexer(reader);
             JSONParser parser = new JSONParser(lexer);
             parser.setRecorder(recorder);
             parser.parse();
             System.out.println("IMPRESIONNNN");
             recorder.imprimir();
+             if (!lexer.getErr().isEmpty()||!parser.getErr().isEmpty()) {
+                 StringBuilder builder = new StringBuilder();
+                 builder.append("ERROR \n");
+                 for (String string : lexer.getErr()) {
+                     builder.append("\n").append(string);
+                 }
+                 for (String string : parser.getErr()) {
+                     builder.append("\n").append(string);
+                 }
+                 mensaje = builder.toString();
+                 mostrarErrores();
+                 
+             }else{
+                 JOptionPane.showMessageDialog(null, "JSON Correcto");
+             }
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        jTextPane1.setText(jTextPane1.getText()+recorder.getVariables());
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        fileUtil.guardarJson(txtJson.getText());
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        String texto = fileUtil.cargarJson();
+        if (!texto.isEmpty()) {
+            txtJson.setText(texto);
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        jTextPane1.setText(jTextPane1.getText()+recorder.getClases());
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        jTextPane1.setText(jTextPane1.getText()+recorder.getMetodos());
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,6 +329,7 @@ public class MainFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -216,26 +342,33 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane txtErrores;
+    private javax.swing.JTextPane txtJson;
     // End of variables declaration//GEN-END:variables
-
+/*
     public Lector getLector() {
         return lector;
     }
 
     public void setLector(Lector lector) {
         this.lector = lector;
-    }
+    }*/
 }

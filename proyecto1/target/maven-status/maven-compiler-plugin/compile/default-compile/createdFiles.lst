@@ -29,6 +29,7 @@ Util/Analizador.class
 Frontend/Start.class
 Parser/sym.class
 DataClasses/prueba.class
+.netbeans_automatic_build
 JParser/JSONParser$CUP$JSONParser$actions.class
 TextLine/TextLineNumber.class
 Results/VariableResult.class

@@ -4,21 +4,27 @@
  */
 package Frontend;
 
-import Util.Analizador;
-import Util.FileUtil;
-import Util.Lector;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ordson
  */
 public class Start extends javax.swing.JFrame {
+
     FileUtil fileUtil = new FileUtil();
     File proyecto1;
     File proyecto2;
-    private Lector lector = new Lector();
-    
+    //private Lector lector = new Lector();
+
     /**
      * Creates new form Start
      */
@@ -48,17 +54,23 @@ public class Start extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         ubicacion2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(430, 400));
+        setPreferredSize(new java.awt.Dimension(400, 430));
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
+        jPanel4.setBackground(new java.awt.Color(87, 201, 222));
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        jButton1.setText("jButton1");
+        jButton1.setFont(new java.awt.Font("Ubuntu Condensed", 0, 18)); // NOI18N
+        jButton1.setText("Analizar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -77,10 +89,11 @@ public class Start extends javax.swing.JFrame {
 
         jPanel5.setLayout(new java.awt.GridLayout(1, 0));
 
-        jPanel6.setBackground(new java.awt.Color(227, 227, 227));
+        jPanel6.setBackground(new java.awt.Color(157, 253, 242));
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        jButton2.setText("jButton2");
+        jButton2.setFont(new java.awt.Font("Ubuntu Condensed", 0, 13)); // NOI18N
+        jButton2.setText("Buscar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -93,6 +106,7 @@ public class Start extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 42, 43, 61);
         jPanel6.add(jButton2, gridBagConstraints);
 
+        jLabel1.setFont(new java.awt.Font("Ubuntu Condensed", 1, 15)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Ubicacion \n Proyecto 1");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -113,10 +127,11 @@ public class Start extends javax.swing.JFrame {
 
         jPanel5.add(jPanel6);
 
-        jPanel7.setBackground(new java.awt.Color(221, 221, 221));
+        jPanel7.setBackground(new java.awt.Color(169, 228, 254));
         jPanel7.setLayout(new java.awt.GridBagLayout());
 
-        jButton3.setText("jButton2");
+        jButton3.setFont(new java.awt.Font("Ubuntu Condensed", 0, 13)); // NOI18N
+        jButton3.setText("Buscar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -129,8 +144,9 @@ public class Start extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 43, 41, 60);
         jPanel7.add(jButton3, gridBagConstraints);
 
+        jLabel2.setFont(new java.awt.Font("Ubuntu Condensed", 1, 15)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Ubucacion \n Proyecto 2");
+        jLabel2.setText("Ubicacion \n Proyecto 2");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -151,13 +167,34 @@ public class Start extends javax.swing.JFrame {
 
         jPanel1.add(jPanel5, java.awt.BorderLayout.CENTER);
 
+        jPanel2.setBackground(new java.awt.Color(201, 231, 254));
+        jPanel2.setMinimumSize(new java.awt.Dimension(10, 50));
+        jPanel2.setPreferredSize(new java.awt.Dimension(10, 50));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setFont(new java.awt.Font("Ubuntu Condensed", 0, 24)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("COMPARADOR");
+        jPanel2.add(jLabel4, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        jMenu1.setText("Archivo");
+        jMenu1.setFont(new java.awt.Font("Ubuntu Condensed", 1, 13)); // NOI18N
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem1.setFont(new java.awt.Font("Ubuntu Condensed", 0, 14)); // NOI18N
+        jMenuItem1.setText("Cargar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -165,22 +202,45 @@ public class Start extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        proyecto1 = fileUtil.chooseDirectory();
-        ubicacion1.setText(proyecto1.getPath());
+        File temp = fileUtil.chooseDirectory();
+        if (temp != null) {
+            proyecto1 = temp;
+            ubicacion1.setText(proyecto1.getPath());
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        proyecto2 = fileUtil.chooseDirectory();
-        ubicacion2.setText(proyecto2.getPath());
+        File temp = fileUtil.chooseDirectory();
+        if (temp != null) {
+            proyecto2 = temp;
+            ubicacion2.setText(proyecto2.getPath());
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        lector.setFileUtil(fileUtil);
-        
-        this.dispose();
-        MainFrame mainFrame = new MainFrame(lector, proyecto1, proyecto2);
-        mainFrame.setVisible(true);
+
+        ArrayList<File> archivos = new ArrayList<>();
+        if (proyecto1 == null || proyecto2 == null) {
+            return;
+        }
+        archivos.add(proyecto1);
+        archivos.add(proyecto2);
+        enviarArchivos(archivos);
+//lector.setFileUtil(fileUtil);
+
+        //this.dispose();
+//        MainFrame mainFrame = new MainFrame(lector, proyecto1, proyecto2);
+        //mainFrame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        String texto = fileUtil.cargarJson();
+        if (!texto.isEmpty()) {
+            MainFrame frame = new MainFrame(texto);
+            frame.mostrarJson();
+        }
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,6 +268,7 @@ public class Start extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Start.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -217,16 +278,39 @@ public class Start extends javax.swing.JFrame {
         });
     }
 
+    private void enviarArchivos(ArrayList<File> archivos) {
+        try {
+            Socket socket = new Socket("192.168.0.9", 9999);
+            ObjectOutputStream flujo = new ObjectOutputStream(socket.getOutputStream());
+            flujo.writeObject(archivos);
+            ObjectInputStream oi = new ObjectInputStream(socket.getInputStream());
+            String mensaje = oi.readUTF();
+            MainFrame mainFrame = new MainFrame(mensaje);
+            if (mensaje.startsWith("ERROR")) {
+                mainFrame.mostrarErrores();
+            } else {
+                mainFrame.mostrarJson();
+            }
+            oi.close();
+            flujo.close();
+            socket.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error al enviar los datos al servidor");
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -235,11 +319,12 @@ public class Start extends javax.swing.JFrame {
     private javax.swing.JLabel ubicacion2;
     // End of variables declaration//GEN-END:variables
 
-    public Lector getLector() {
+    /*    public Lector getLector() {
         return lector;
     }
 
     public void setLector(Lector lector) {
         this.lector = lector;
     }
+     */
 }
