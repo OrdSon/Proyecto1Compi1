@@ -1,6 +1,7 @@
 package Parser;
 import java_cup.runtime.*;
 import Util.DataRecorder;
+import java.util.ArrayList;
 
 //1. user code
 class Parser;
@@ -10,6 +11,7 @@ action code{:
 :}
 
 parser code {://código que modifica el comportamiento del parser [sobreescribiendo o creado métodos]    
+    ArrayList<String> err = new ArrayList<>();
     public Parser(Lexer lexer){//nuevo constructor
         super(lexer);        
     }    
@@ -24,6 +26,7 @@ parser code {://código que modifica el comportamiento del parser [sobreescribie
     public void syntax_error(Symbol cur_token) {
         System.out.println("El error es el simbolo: " + sym.terminalNames[cur_token.sym]);
         System.out.println(String.format("En la posicion: %d, %d", cur_token.left, cur_token.right));
+        err.add(String.format("En la posicion: %d, %d", cur_token.left, cur_token.right));
     }
 
     public void unrecovered_syntax_error(Symbol cur_token) {
@@ -90,6 +93,7 @@ importe ::= IMPORT s2 SEMICOLON;
 s2::=IDENTIFICADOR
 	| IDENTIFICADOR DOT s2
 	| IDENTIFICADOR DOT POR
+        | error {:err.add("Error: se esperaba identificador | punto en posicion "+cur_token.left+" "+cur_token.right);:}
 	;
 
 body::= asignacion {:recorder.guardar();:} body 
@@ -107,9 +111,12 @@ visibilidad_clase ::= PUBLIC
 	;
 
 c ::= visibilidad clase
-    | clase;
+    | clase
+;
 
-clase ::= CLASS IDENTIFICADOR:n {:System.out.println("Clase llamada: "+n);recorder.setClaseActiva(n);:} OPENBRACE body CLOSEBRACE;
+clase ::= CLASS IDENTIFICADOR:n {:System.out.println("Clase llamada: "+n);recorder.setClaseActiva(n);:} OPENBRACE body CLOSEBRACE
+|error {:err.add("Error: Definicion de clase incorrecta en posicion "+cur_token.left+" "+cur_token.right);:}
+;
 
 visibilidad::=visibilidad_clase
 	|PROTECTED
@@ -123,6 +130,7 @@ primitivo::= BYTE {:System.out.println(" primitivo BYTE"); recorder.setTipo("byt
 	|DOUBLE {:System.out.println("primitivo  DOUBLE"); recorder.setTipo("double");:}
 	|BOOLEAN {:System.out.println("primitivo  BOOLEAN");recorder.setTipo("boolean");:}
 	|CHAR {:System.out.println("primitivo  CHAR");recorder.setTipo("char");:}
+        |error {:err.add("Error: Se esperaba tipo primitivo: {INT|DOUBLE|BOOLEAN|CHAR}"+cur_token.left+" "+cur_token.right);:}
 	;
 
 tipo::=VOID; 
@@ -139,13 +147,16 @@ m ::= visibilidad metodo
 
 	s3 ::=  IDENTIFICADOR:id {:System.out.println(id); recorder.addVariable(id);:}
 		| IDENTIFICADOR:id COMA s3 {:System.out.println(id);recorder.addVariable(id);:}
+                |error {:err.add("Error: se esperaba  |PRIMITIVO identificador| en posicion "+cur_token.left+" "+cur_token.right);:}
 		;
 	
 	s10 ::=   IDENTIFICADOR:id {:System.out.println(id);recorder.addVariable(id);:} 
 		| IDENTIFICADOR:id COMA s10 {:System.out.println(id);recorder.addVariable(id);:}
+                |error {:err.add("Error: se esperaba |String identificador| en posicion "+cur_token.left+" "+cur_token.right);:}
 		;
 	s11 ::=  IDENTIFICADOR:id {:System.out.println(id);recorder.addVariable(id);:}
 		| IDENTIFICADOR:id COMA s11 {:System.out.println(id);recorder.addVariable(id);:}
+                |error {:err.add("Error: se esperaba |OBJETO identificador|en posicion "+cur_token.left+" "+cur_token.right);:}
 		;
 
 	expresion ::= primitivoS
@@ -163,6 +174,7 @@ m ::= visibilidad metodo
                                                             recorder.setTipo(id);
                                                             recorder.addVariable(id);
                                                             recorder.guardar();:} 
+            |error {:err.add("Error: se esperaba |TIPO_OBJETO identificador|en posicion "+cur_token.left+" "+cur_token.right);:}
             ;
 
 	sentencia ::= visibilidad expresion SEMICOLON;
@@ -175,6 +187,7 @@ args::= expresion_simple {:recorder.contarArgumento();:}
 valor ::= CADENA:c {:System.out.println("valor cadena "+c); recorder.setValor(c+"");:}
 	|IDENTIFICADOR:c {:System.out.println("valor identificador");recorder.setValor(c+"");:}
 	|expr_list:c {:System.out.println("valor lista "+c);:}
+        |error {:err.add("Error: se esperaba |VALOR| en posicion "+cur_token.left+" "+cur_token.right);:} 
 	;
 
 asignacion ::=  expresion igualacion SEMICOLON
@@ -214,6 +227,7 @@ if::= IF s13;
 	s13 ::= OPENPAR expr_logica CLOSEPAR OPENBRACE method_body CLOSEBRACE
 	| OPENPAR expr_logica CLOSEPAR OPENBRACE method_body CLOSEBRACE ELSE if
     | OPENPAR expr_logica CLOSEPAR OPENBRACE method_body CLOSEBRACE ELSE OPENBRACE method_body CLOSEBRACE
+    |error {:err.add("Error: se Definicion incorrecta de IF en posicion "+cur_token.left+" "+cur_token.right);:}
     ;
 
 
@@ -222,13 +236,17 @@ for::= FOR OPENPAR s14 CLOSEPAR OPENBRACE cicle_body CLOSEBRACE;
 	s14::= INT IDENTIFICADOR EQUALS NUMERO SEMICOLON IDENTIFICADOR op_logico NUMERO SEMICOLON IDENTIFICADOR igualacion
 |INT IDENTIFICADOR EQUALS NUMERO SEMICOLON IDENTIFICADOR op_logico IDENTIFICADOR SEMICOLON IDENTIFICADOR igualacion
 	| IDENTIFICADOR IDENTIFICADOR COLON IDENTIFICADOR
+        |error {:err.add("Error: definicion incorrecta de FOR en posicion "+cur_token.left+" "+cur_token.right);:}
 	;
 
-while::= WHILE OPENPAR expr_logica CLOSEPAR;
+while::= WHILE OPENPAR expr_logica CLOSEPAR 
+|error {:err.add("Error: Definicion incorrecta de WHILE en posicion "+cur_token.left+" "+cur_token.right);:};
 while_cicle::= while OPENBRACE cicle_body CLOSEBRACE;
 do_while ::= DO OPENBRACE cicle_body CLOSEBRACE while SEMICOLON;
 
-switch::= SWITCH OPENPAR valor CLOSEPAR OPENBRACE switch_body CLOSEBRACE;
+switch::= SWITCH OPENPAR valor CLOSEPAR OPENBRACE switch_body CLOSEBRACE
+
+;
 
 
 switch_body ::= case_group
@@ -238,14 +256,21 @@ case_group::= case case_group
  	|case 
     |default case_group
     |default
+    
  	;
 
-case::= CASE NUMERO COLON method_body BREAK SEMICOLON;
-default::= DEFAULT COLON method_body BREAK SEMICOLON;
+case::= CASE NUMERO COLON method_body BREAK SEMICOLON
+
+;
+default::= DEFAULT COLON method_body BREAK SEMICOLON
+;
+
 
 llamada_compleja ::= IDENTIFICADOR DOT s21;
     s21 ::= llamada
     |IDENTIFICADOR DOT s21
+    |error {:err.add("Error: Llamada mal definida en posicion: "+cur_token.left+" "+cur_token.right);:}
+
     ;
 llamada::=IDENTIFICADOR OPENPAR  params CLOSEPAR SEMICOLON;
 
@@ -265,7 +290,8 @@ constructor::=visibilidad s20
     |s20
     ;
 
-s20::= IDENTIFICADOR:id {:recorder.addMetodo(id);:} OPENPAR args CLOSEPAR OPENBRACE method_body CLOSEBRACE{:recorder.guardarMetodo();:};
+s20::= IDENTIFICADOR:id {:recorder.addMetodo(id);:} OPENPAR args CLOSEPAR OPENBRACE method_body CLOSEBRACE{:recorder.guardarMetodo();:}
+;
 
 cicle_body::= method_body
 	|BREAK SEMICOLON cicle_body

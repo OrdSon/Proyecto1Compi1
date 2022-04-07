@@ -3,6 +3,7 @@
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/DataClasses/Ocurrencia.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/TextLine/TextLineNumber.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Util/FileUtil.java
+/home/ordson/NetBeansProjects/proyecto1/src/main/java/Server/Server.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/DataClasses/MethodData.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Results/VariableResult.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Frontend/MainFrame.java
@@ -25,5 +26,6 @@
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Frontend/Marco.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Parser/ParserSym.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Reportes/JSONGenerator.java
+/home/ordson/NetBeansProjects/proyecto1/src/main/java/Server/ConsolaServer.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/Main/Main.java
 /home/ordson/NetBeansProjects/proyecto1/src/main/java/DataClasses/prueba.java

@@ -7,6 +7,7 @@ package JParser;
 
 import java_cup.runtime.*;
 import Util.DataRecorder;
+import java.util.ArrayList;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -32,17 +33,18 @@ public class JSONParser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\042\000\002\002\004\000\002\017\005\000\002\020" +
+    "\000\046\000\002\002\004\000\002\017\005\000\002\020" +
     "\005\000\002\020\005\000\002\020\005\000\002\020\005" +
     "\000\002\020\005\000\002\020\003\000\002\020\003\000" +
     "\002\020\003\000\002\020\003\000\002\020\002\000\002" +
-    "\002\005\000\002\002\005\000\002\021\005\000\002\023" +
-    "\002\000\002\022\006\000\002\022\003\000\002\003\007" +
-    "\000\002\004\005\000\002\004\003\000\002\005\011\000" +
-    "\002\006\007\000\002\007\005\000\002\007\003\000\002" +
-    "\010\023\000\002\011\007\000\002\012\005\000\002\012" +
-    "\003\000\002\013\023\000\002\014\007\000\002\015\005" +
-    "\000\002\015\003\000\002\016\007" });
+    "\002\005\000\002\002\005\000\002\002\003\000\002\021" +
+    "\005\000\002\023\002\000\002\022\006\000\002\022\003" +
+    "\000\002\003\007\000\002\004\005\000\002\004\003\000" +
+    "\002\005\011\000\002\005\003\000\002\006\007\000\002" +
+    "\007\005\000\002\007\003\000\002\010\023\000\002\010" +
+    "\003\000\002\011\007\000\002\012\005\000\002\012\003" +
+    "\000\002\013\023\000\002\013\003\000\002\014\007\000" +
+    "\002\015\005\000\002\015\003\000\002\016\007" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -50,65 +52,69 @@ public class JSONParser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\156\000\004\021\004\001\002\000\016\004\011\005" +
-    "\021\006\013\007\015\010\016\022\ufff6\001\002\000\004" +
-    "\002\006\001\002\000\004\002\001\001\002\000\006\020" +
-    "\157\022\ufff7\001\002\000\006\020\155\022\ufff8\001\002" +
-    "\000\004\017\137\001\002\000\004\020\135\001\002\000" +
-    "\004\017\076\001\002\000\006\020\074\022\ufffa\001\002" +
-    "\000\004\017\044\001\002\000\004\017\030\001\002\000" +
-    "\004\022\027\001\002\000\006\020\025\022\ufff9\001\002" +
-    "\000\004\017\022\001\002\000\006\026\023\027\024\001" +
-    "\002\000\004\020\ufff4\001\002\000\004\020\ufff5\001\002" +
-    "\000\016\004\011\005\021\006\013\007\015\010\016\022" +
-    "\ufff6\001\002\000\004\022\ufffd\001\002\000\004\002\000" +
-    "\001\002\000\004\023\031\001\002\000\004\021\032\001" +
-    "\002\000\004\015\040\001\002\000\006\020\036\024\uffe1" +
-    "\001\002\000\004\024\035\001\002\000\006\020\uffe3\022" +
-    "\uffe3\001\002\000\004\021\032\001\002\000\004\024\uffe2" +
-    "\001\002\000\004\017\041\001\002\000\004\025\042\001" +
-    "\002\000\004\022\043\001\002\000\006\020\uffe0\024\uffe0" +
-    "\001\002\000\004\023\045\001\002\000\004\021\046\001" +
-    "\002\000\004\011\054\001\002\000\006\020\052\024\uffe5" +
-    "\001\002\000\004\024\051\001\002\000\006\020\uffe7\022" +
-    "\uffe7\001\002\000\004\021\046\001\002\000\004\024\uffe6" +
-    "\001\002\000\004\017\055\001\002\000\004\030\056\001" +
-    "\002\000\004\025\057\001\002\000\004\030\060\001\002" +
-    "\000\004\020\061\001\002\000\004\012\062\001\002\000" +
-    "\004\017\063\001\002\000\004\030\064\001\002\000\004" +
-    "\025\065\001\002\000\004\030\066\001\002\000\004\020" +
-    "\067\001\002\000\004\014\070\001\002\000\004\017\071" +
-    "\001\002\000\004\026\072\001\002\000\004\022\073\001" +
-    "\002\000\006\020\uffe4\024\uffe4\001\002\000\016\004\011" +
-    "\005\021\006\013\007\015\010\016\022\ufff6\001\002\000" +
-    "\004\022\ufffe\001\002\000\004\023\077\001\002\000\004" +
-    "\021\100\001\002\000\004\011\106\001\002\000\004\024" +
-    "\105\001\002\000\006\020\103\024\uffe9\001\002\000\004" +
-    "\021\100\001\002\000\004\024\uffea\001\002\000\006\020" +
-    "\uffeb\022\uffeb\001\002\000\004\017\107\001\002\000\004" +
-    "\030\110\001\002\000\004\025\111\001\002\000\004\030" +
-    "\112\001\002\000\004\020\113\001\002\000\004\012\114" +
-    "\001\002\000\004\017\115\001\002\000\004\030\116\001" +
-    "\002\000\004\025\117\001\002\000\004\030\120\001\002" +
-    "\000\004\020\121\001\002\000\004\013\122\001\002\000" +
-    "\004\017\123\001\002\000\004\030\125\001\002\000\004" +
-    "\022\134\001\002\000\004\025\127\001\002\000\004\030" +
-    "\133\001\002\000\006\020\130\030\ufff0\001\002\000\004" +
-    "\025\ufff2\001\002\000\004\025\127\001\002\000\004\030" +
-    "\ufff1\001\002\000\004\022\ufff3\001\002\000\006\020\uffe8" +
-    "\024\uffe8\001\002\000\016\004\011\005\021\006\013\007" +
-    "\015\010\016\022\ufff6\001\002\000\004\022\uffff\001\002" +
-    "\000\004\023\140\001\002\000\004\021\141\001\002\000" +
-    "\004\011\147\001\002\000\004\024\146\001\002\000\006" +
-    "\020\144\024\uffed\001\002\000\004\021\141\001\002\000" +
-    "\004\024\uffee\001\002\000\006\020\uffef\022\uffef\001\002" +
-    "\000\004\017\150\001\002\000\004\030\151\001\002\000" +
-    "\004\025\152\001\002\000\004\030\153\001\002\000\004" +
-    "\022\154\001\002\000\006\020\uffec\024\uffec\001\002\000" +
-    "\016\004\011\005\021\006\013\007\015\010\016\022\ufff6" +
-    "\001\002\000\004\022\ufffc\001\002\000\016\004\011\005" +
-    "\021\006\013\007\015\010\016\022\ufff6\001\002\000\004" +
-    "\022\ufffb\001\002" });
+    "\000\162\000\004\021\004\001\002\000\020\003\017\004" +
+    "\012\005\022\006\013\007\015\010\016\022\ufff6\001\002" +
+    "\000\004\002\006\001\002\000\004\002\001\001\002\000" +
+    "\006\020\163\022\ufff7\001\002\000\006\020\161\022\ufff8" +
+    "\001\002\000\004\020\157\001\002\000\004\017\140\001" +
+    "\002\000\004\017\100\001\002\000\006\020\076\022\ufffa" +
+    "\001\002\000\004\017\045\001\002\000\004\017\031\001" +
+    "\002\000\004\020\ufff3\001\002\000\004\022\030\001\002" +
+    "\000\006\020\026\022\ufff9\001\002\000\004\017\023\001" +
+    "\002\000\006\026\024\027\025\001\002\000\004\020\ufff4" +
+    "\001\002\000\004\020\ufff5\001\002\000\020\003\017\004" +
+    "\012\005\022\006\013\007\015\010\016\022\ufff6\001\002" +
+    "\000\004\022\ufffd\001\002\000\004\002\000\001\002\000" +
+    "\004\023\032\001\002\000\004\021\033\001\002\000\004" +
+    "\015\041\001\002\000\006\020\037\024\uffdd\001\002\000" +
+    "\004\024\036\001\002\000\006\020\uffdf\022\uffdf\001\002" +
+    "\000\004\021\033\001\002\000\004\024\uffde\001\002\000" +
+    "\004\017\042\001\002\000\004\025\043\001\002\000\004" +
+    "\022\044\001\002\000\006\020\uffdc\024\uffdc\001\002\000" +
+    "\004\023\046\001\002\000\006\003\051\021\047\001\002" +
+    "\000\004\011\056\001\002\000\006\020\054\024\uffe2\001" +
+    "\002\000\006\020\uffe0\024\uffe0\001\002\000\004\024\053" +
+    "\001\002\000\006\020\uffe4\022\uffe4\001\002\000\006\003" +
+    "\051\021\047\001\002\000\004\024\uffe3\001\002\000\004" +
+    "\017\057\001\002\000\004\030\060\001\002\000\004\025" +
+    "\061\001\002\000\004\030\062\001\002\000\004\020\063" +
+    "\001\002\000\004\012\064\001\002\000\004\017\065\001" +
+    "\002\000\004\030\066\001\002\000\004\025\067\001\002" +
+    "\000\004\030\070\001\002\000\004\020\071\001\002\000" +
+    "\004\014\072\001\002\000\004\017\073\001\002\000\004" +
+    "\026\074\001\002\000\004\022\075\001\002\000\006\020" +
+    "\uffe1\024\uffe1\001\002\000\020\003\017\004\012\005\022" +
+    "\006\013\007\015\010\016\022\ufff6\001\002\000\004\022" +
+    "\ufffe\001\002\000\004\023\101\001\002\000\006\003\103" +
+    "\021\102\001\002\000\004\011\111\001\002\000\006\020" +
+    "\uffe5\024\uffe5\001\002\000\004\024\110\001\002\000\006" +
+    "\020\106\024\uffe7\001\002\000\006\003\103\021\102\001" +
+    "\002\000\004\024\uffe8\001\002\000\006\020\uffe9\022\uffe9" +
+    "\001\002\000\004\017\112\001\002\000\004\030\113\001" +
+    "\002\000\004\025\114\001\002\000\004\030\115\001\002" +
+    "\000\004\020\116\001\002\000\004\012\117\001\002\000" +
+    "\004\017\120\001\002\000\004\030\121\001\002\000\004" +
+    "\025\122\001\002\000\004\030\123\001\002\000\004\020" +
+    "\124\001\002\000\004\013\125\001\002\000\004\017\126" +
+    "\001\002\000\004\030\130\001\002\000\004\022\137\001" +
+    "\002\000\004\025\132\001\002\000\004\030\136\001\002" +
+    "\000\006\020\133\030\uffef\001\002\000\004\025\ufff1\001" +
+    "\002\000\004\025\132\001\002\000\004\030\ufff0\001\002" +
+    "\000\004\022\ufff2\001\002\000\006\020\uffe6\024\uffe6\001" +
+    "\002\000\004\023\141\001\002\000\006\003\144\021\142" +
+    "\001\002\000\004\011\151\001\002\000\004\024\150\001" +
+    "\002\000\006\020\uffea\024\uffea\001\002\000\006\020\146" +
+    "\024\uffec\001\002\000\006\003\144\021\142\001\002\000" +
+    "\004\024\uffed\001\002\000\006\020\uffee\022\uffee\001\002" +
+    "\000\004\017\152\001\002\000\004\030\153\001\002\000" +
+    "\004\025\154\001\002\000\004\030\155\001\002\000\004" +
+    "\022\156\001\002\000\006\020\uffeb\024\uffeb\001\002\000" +
+    "\020\003\017\004\012\005\022\006\013\007\015\010\016" +
+    "\022\ufff6\001\002\000\004\022\uffff\001\002\000\020\003" +
+    "\017\004\012\005\022\006\013\007\015\010\016\022\ufff6" +
+    "\001\002\000\004\022\ufffc\001\002\000\020\003\017\004" +
+    "\012\005\022\006\013\007\015\010\016\022\ufff6\001\002" +
+    "\000\004\022\ufffb\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -116,49 +122,51 @@ public class JSONParser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\156\000\004\017\004\001\001\000\016\002\011\003" +
-    "\013\006\017\011\007\014\006\020\016\001\001\000\002" +
+    "\000\162\000\004\017\004\001\001\000\016\002\010\003" +
+    "\013\006\020\011\007\014\006\020\017\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\016\002" +
-    "\011\003\013\006\017\011\007\014\006\020\025\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\006\015\033\016\032\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\006\015" +
-    "\036\016\032\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\006\012\047\013\046\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\006\012\052\013\046\001\001\000\002\001\001" +
+    "\001\000\016\002\010\003\013\006\020\011\007\014\006" +
+    "\020\026\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\006\015\034\016\033\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\006\015\037\016\033\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\006\012\051\013\047" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\006\012\054" +
+    "\013\047\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\016\002\011\003\013\006\017\011\007\014\006\020\074" +
-    "\001\001\000\002\001\001\000\002\001\001\000\006\007" +
-    "\100\010\101\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\006\007\103\010\101\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\002\001\001\000\002\001\001\000\016\002\010\003\013" +
+    "\006\020\011\007\014\006\020\076\001\001\000\002\001" +
+    "\001\000\002\001\001\000\006\007\103\010\104\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\006\007\106\010\104\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\004\021\123\001\001" +
-    "\000\002\001\001\000\004\022\125\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\023\130\001\001\000\004" +
-    "\022\131\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\016\002\011\003\013\006\017\011\007" +
-    "\014\006\020\135\001\001\000\002\001\001\000\002\001" +
-    "\001\000\006\004\141\005\142\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\006\004\144\005" +
-    "\142\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\004\021\126\001\001\000" +
+    "\002\001\001\000\004\022\130\001\001\000\002\001\001" +
+    "\000\002\001\001\000\004\023\133\001\001\000\004\022" +
+    "\134\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\006\004\142\005\144\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\006\004\146\005\144\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\016\002\011" +
-    "\003\013\006\017\011\007\014\006\020\155\001\001\000" +
-    "\002\001\001\000\016\002\011\003\013\006\017\011\007" +
-    "\014\006\020\157\001\001\000\002\001\001" });
+    "\001\000\002\001\001\000\016\002\010\003\013\006\020" +
+    "\011\007\014\006\020\157\001\001\000\002\001\001\000" +
+    "\016\002\010\003\013\006\020\011\007\014\006\020\161" +
+    "\001\001\000\002\001\001\000\016\002\010\003\013\006" +
+    "\020\011\007\014\006\020\163\001\001\000\002\001\001" +
+    "" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -197,6 +205,11 @@ public class JSONParser extends java_cup.runtime.lr_parser {
 
 
 //código que modifica el comportamiento del parser [sobreescribiendo o creado métodos]    
+    private ArrayList<String> err = new ArrayList<>();   
+    
+    public void clearErrors(){
+        err.clear();
+    }
     public JSONParser(JSONLexer lexer){//nuevo constructor
         super(lexer);        
     }    
@@ -211,6 +224,7 @@ public class JSONParser extends java_cup.runtime.lr_parser {
     public void syntax_error(Symbol cur_token) {
         System.out.println("El error es el simbolo: " + JSONParserSym.terminalNames[cur_token.sym]);
         System.out.println(String.format("En la posicion: %d, %d", cur_token.left, cur_token.right));
+        err.add(String.format("En la posicion: %d, %d", cur_token.left, cur_token.right));
     }
 
     public void unrecovered_syntax_error(Symbol cur_token) {
@@ -229,6 +243,14 @@ public class JSONParser extends java_cup.runtime.lr_parser {
     this.recorder = recorder;
 }
 //
+
+    public ArrayList<String> getErr() {
+        return err;
+    }
+
+    public void setErr(ArrayList<String> err) {
+        this.err = err;
+    }
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -397,7 +419,16 @@ class CUP$JSONParser$actions {
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // cadena ::= COMILLA cadenaBody COMILLA 
+          case 14: // score ::= error 
+            {
+              Object RESULT =null;
+		    getErr().add("Error: Score mal definido en posicion: "+cur_token.left+"  "+cur_token.right);
+              CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("score",0, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
+            }
+          return CUP$JSONParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // cadena ::= COMILLA cadenaBody COMILLA 
             {
               Object RESULT =null;
 
@@ -406,7 +437,7 @@ class CUP$JSONParser$actions {
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // NT$0 ::= 
+          case 16: // NT$0 ::= 
             {
               Object RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).left;
@@ -418,7 +449,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // cadenaBody ::= CADENA COMA NT$0 cadenaBody 
+          case 17: // cadenaBody ::= CADENA COMA NT$0 cadenaBody 
             {
               Object RESULT =null;
               // propagate RESULT from NT$0
@@ -432,7 +463,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // cadenaBody ::= CADENA 
+          case 18: // cadenaBody ::= CADENA 
             {
               Object RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()).left;
@@ -444,7 +475,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // clases ::= CLASES COLON OPENBRACKET classBody CLOSEBRACKET 
+          case 19: // clases ::= CLASES COLON OPENBRACKET classBody CLOSEBRACKET 
             {
               Object RESULT =null;
 
@@ -453,7 +484,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // classBody ::= className COMA classBody 
+          case 20: // classBody ::= className COMA classBody 
             {
               Object RESULT =null;
 
@@ -462,7 +493,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // classBody ::= className 
+          case 21: // classBody ::= className 
             {
               Object RESULT =null;
 
@@ -471,7 +502,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // className ::= OPENBRACE NOMBRE COLON COMILLA CADENA COMILLA CLOSEBRACE 
+          case 22: // className ::= OPENBRACE NOMBRE COLON COMILLA CADENA COMILLA CLOSEBRACE 
             {
               Object RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-2)).left;
@@ -483,7 +514,16 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // variables ::= VARIABLES COLON OPENBRACKET varBody CLOSEBRACKET 
+          case 23: // className ::= error 
+            {
+              Object RESULT =null;
+		    getErr().add("Error: Clase mal definida en posicion: "+cur_token.left+"  "+cur_token.right);
+              CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("className",3, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
+            }
+          return CUP$JSONParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 24: // variables ::= VARIABLES COLON OPENBRACKET varBody CLOSEBRACKET 
             {
               Object RESULT =null;
 
@@ -492,7 +532,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // varBody ::= singleVar COMA varBody 
+          case 25: // varBody ::= singleVar COMA varBody 
             {
               Object RESULT =null;
 
@@ -501,7 +541,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 24: // varBody ::= singleVar 
+          case 26: // varBody ::= singleVar 
             {
               Object RESULT =null;
 
@@ -510,7 +550,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 25: // singleVar ::= OPENBRACE NOMBRE COLON COMILLA CADENA COMILLA COMA TIPO COLON COMILLA CADENA COMILLA COMA FUNCION COLON cadena CLOSEBRACE 
+          case 27: // singleVar ::= OPENBRACE NOMBRE COLON COMILLA CADENA COMILLA COMA TIPO COLON COMILLA CADENA COMILLA COMA FUNCION COLON cadena CLOSEBRACE 
             {
               Object RESULT =null;
 		int nleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-12)).left;
@@ -525,7 +565,16 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 26: // metodos ::= METODOS COLON OPENBRACKET metodosBody CLOSEBRACKET 
+          case 28: // singleVar ::= error 
+            {
+              Object RESULT =null;
+		    getErr().add("Error: Score mal definido en posicion: "+cur_token.left+"  "+cur_token.right);
+              CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("singleVar",6, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
+            }
+          return CUP$JSONParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 29: // metodos ::= METODOS COLON OPENBRACKET metodosBody CLOSEBRACKET 
             {
               Object RESULT =null;
 
@@ -534,7 +583,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 27: // metodosBody ::= singleMetodo COMA metodosBody 
+          case 30: // metodosBody ::= singleMetodo COMA metodosBody 
             {
               Object RESULT =null;
 
@@ -543,7 +592,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 28: // metodosBody ::= singleMetodo 
+          case 31: // metodosBody ::= singleMetodo 
             {
               Object RESULT =null;
 
@@ -552,7 +601,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 29: // singleMetodo ::= OPENBRACE NOMBRE COLON COMILLA CADENA COMILLA COMA TIPO COLON COMILLA CADENA COMILLA COMA PARAMETROS COLON NUMERO CLOSEBRACE 
+          case 32: // singleMetodo ::= OPENBRACE NOMBRE COLON COMILLA CADENA COMILLA COMA TIPO COLON COMILLA CADENA COMILLA COMA PARAMETROS COLON NUMERO CLOSEBRACE 
             {
               Object RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-12)).left;
@@ -564,14 +613,22 @@ System.out.println("funcion: "+c); recorder.append(c+",");
 		int dleft = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).right;
 		String d = (String)((java_cup.runtime.Symbol) CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-1)).value;
-		System.out.println("Metodo: "+c+ "Tipo: "+t+ "Parametros: "+d);
-                recorder.addMetodo(c,t,d);
+		System.out.println("Metodo: "+c+ "Tipo: "+t+ "Parametros: "+d);recorder.addMetodo(c,t,d);
               CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("singleMetodo",9, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.elementAt(CUP$JSONParser$top-16)), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
             }
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 30: // comentarios ::= COMENTARIOS COLON OPENBRACKET comentarioBody CLOSEBRACKET 
+          case 33: // singleMetodo ::= error 
+            {
+              Object RESULT =null;
+		    getErr().add("Error: Metodo mal definido en posicion: "+cur_token.left+"  "+cur_token.right);
+              CUP$JSONParser$result = parser.getSymbolFactory().newSymbol("singleMetodo",9, ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JSONParser$stack.peek()), RESULT);
+            }
+          return CUP$JSONParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 34: // comentarios ::= COMENTARIOS COLON OPENBRACKET comentarioBody CLOSEBRACKET 
             {
               Object RESULT =null;
 
@@ -580,7 +637,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 31: // comentarioBody ::= singleComment COMA comentarioBody 
+          case 35: // comentarioBody ::= singleComment COMA comentarioBody 
             {
               Object RESULT =null;
 
@@ -589,7 +646,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 32: // comentarioBody ::= singleComment 
+          case 36: // comentarioBody ::= singleComment 
             {
               Object RESULT =null;
 
@@ -598,7 +655,7 @@ System.out.println("funcion: "+c); recorder.append(c+",");
           return CUP$JSONParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 33: // singleComment ::= OPENBRACE TEXTO COLON CADENA CLOSEBRACE 
+          case 37: // singleComment ::= OPENBRACE TEXTO COLON CADENA CLOSEBRACE 
             {
               Object RESULT =null;
 
@@ -628,6 +685,6 @@ System.out.println("funcion: "+c); recorder.append(c+",");
                                CUP$JSONParser$stack,
                                CUP$JSONParser$top);
     }
-}
+    }
 
 }

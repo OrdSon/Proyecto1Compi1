@@ -22,6 +22,8 @@ JParser/JSONParserSym.class
 DataClasses/VariableData.class
 Results/ClassResult.class
 Parser/Lexer.class
+Server/ConsolaServer$1.class
+Server/ConsolaServer.class
 Frontend/Start$2.class
 Util/Analizador.class
 Frontend/Start.class
@@ -37,4 +39,5 @@ Frontend/MainFrame$1.class
 Results/MethodResult.class
 Frontend/MainFrame.class
 Reportes/JSONGenerator.class
+Server/Server.class
 Frontend/Start$1.class

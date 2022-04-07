@@ -5,6 +5,8 @@
 package Main;
 
 import Frontend.Start;
+import Server.ConsolaServer;
+import Server.Server;
 import Util.Lector;
 
 /**
@@ -22,8 +24,8 @@ public class Main {
 
 //        Lector analizador = new Lector();
 //        analizador.leerDosCarpetas();
-        Start start = new Start();
-        start.setVisible(true);
+        ConsolaServer server = new ConsolaServer();
+        server.setVisible(true);
 
     }
 }

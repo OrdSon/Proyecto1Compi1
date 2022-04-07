@@ -23,12 +23,12 @@ import java.util.logging.Logger;
  * @author ordson
  */
 public class MainFrame extends javax.swing.JFrame {
-    private Lector lector = new Lector();
+    private Lector lector;
     JSONRecorder recorder = new JSONRecorder();
     JSONGenerator generator = new JSONGenerator();
     
     public MainFrame(Lector lector, File proyecto1, File proyecto2) {
-
+        this.lector = lector;
         lector.leerDosCarpetas(proyecto1, proyecto2);
         generator.setAnalizador(lector.getAnalizador());
         initComponents();

@@ -18,7 +18,7 @@ public class JSONRecorder {
     ArrayList<VariableData> variables = new ArrayList<>();
     StringBuilder string = new StringBuilder();
     String score;
-    private String error;
+    
     
     public void addClase(String clase){
         clases.add(clase);
@@ -71,14 +71,6 @@ public class JSONRecorder {
         for (MethodData metodo : metodos) {
             System.out.println(metodo.toString());
         }
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
     }
     
     

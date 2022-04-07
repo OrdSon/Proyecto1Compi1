@@ -9,12 +9,9 @@ import DataClasses.MethodData;
 import DataClasses.VariableData;
 import Parser.Lexer;
 import Parser.Parser;
-import Reportes.ScoreGenerator;
 import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +21,7 @@ public class Lector {
 
     DataRecorder recorder = new DataRecorder();
 
-    private FileUtil fileUtil;
+    private FileUtil fileUtil = new FileUtil();
     String primerDirectorio;
     String segundoDirectorio;
     ArrayList<File> proyecto1;
@@ -32,6 +29,7 @@ public class Lector {
     ArrayList<ClassData> clasesProyecto1;
     ArrayList<ClassData> clasesProyecto2;
     Analizador analizador = new Analizador();
+    private String error = "";
 
     public Analizador getAnalizador() {
         return analizador;
@@ -54,38 +52,58 @@ public class Lector {
         recorder.getClases().clear();
         imprimir(clasesProyecto1);
         imprimir(clasesProyecto2);
-        
+
         System.out.println("****************************");
         System.out.println("****************************");
         System.out.println("****************************");
         System.out.println("****************************");
-        
+
         analizador.analizarTodo(clasesProyecto1, clasesProyecto2);
-        
-        
+
     }
 
     public void parsear(ArrayList<File> archivos) {
         for (File file : archivos) {
+            Parser parser = null;
+            StringReader reader = new StringReader(fileUtil.getFileText(file));
+            Lexer lexer = new Lexer(reader);
             try {
-                StringReader reader = new StringReader(fileUtil.getFileText(file));
-                Parser parser = new Parser(new Lexer(reader));
+
+                parser = new Parser(lexer);
                 parser.setRecorder(recorder);
                 parser.parse();
+                if (!parser.getErr().isEmpty()) {
+                    guardarErrores(lexer, parser);
+                    return;
+                }
                 recorder.guardarClase();
             } catch (Exception ex) {
-                Logger.getLogger(Lector.class.getName()).log(Level.SEVERE, null, ex);
+                guardarErrores(lexer, parser);
+
             }
         }
     }
-
     
-    public void imprimir(ArrayList<ClassData> clases){
+    public void guardarErrores(Lexer lexer, Parser parser){
+        StringBuilder builder = new StringBuilder("ERROR ");
+                for (String string : lexer.getErr()) {
+                    builder.append("\n").append("Lexer: ").append(string);
+                }
+
+                if (parser != null) {
+                    for (String string : parser.getErr()) {
+                        builder.append("\n").append("Parser: ").append(string);
+                    }
+                }
+                this.error = builder.toString();
+    }
+
+    public void imprimir(ArrayList<ClassData> clases) {
         for (ClassData clase : clases) {
             if (clase != null) {
                 System.out.println("Clase : " + clase.getNombre());
                 for (MethodData metodo : clase.getMetodos()) {
-                    System.out.println("Metodo " +metodo.toString());
+                    System.out.println("Metodo " + metodo.toString());
                 }
                 for (VariableData variable : clase.getVariables()) {
                     System.out.println("Variable " + variable.getTipo() + " " + variable.getNombre() + " " + variable.getMetodo());
@@ -101,7 +119,13 @@ public class Lector {
     public void setFileUtil(FileUtil fileUtil) {
         this.fileUtil = fileUtil;
     }
-    
-    
-    
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
 }

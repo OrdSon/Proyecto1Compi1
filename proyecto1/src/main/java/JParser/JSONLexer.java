@@ -4,6 +4,7 @@
 
 package JParser;
 import java_cup.runtime.*;
+import java.util.ArrayList;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
@@ -600,7 +601,10 @@ public class JSONLexer implements java_cup.runtime.Scanner {
   /* user code: */
 StringBuffer string = new StringBuffer();
 String lexema = "";
-
+private ArrayList<String> err = new ArrayList<>();
+public void clearErrors(){
+    err.clear();
+}
 private Symbol symbol(int type) {
 return new Symbol(type, yyline, yycolumn);
 }
@@ -1015,7 +1019,7 @@ return new Symbol(type, yyline, yycolumn, value);
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.out.println("Caracter ilegal <"+ yytext()+">");
+            { System.out.println("Caracter ilegal <"+ yytext()+">"); err.add("Error: caracter ilegal: "+yytext()+" en posicion: "+(yyline+1)+" "+(yycolumn+1));
             }
             // fall through
           case 23: break;
@@ -1130,6 +1134,14 @@ return new Symbol(type, yyline, yycolumn, value);
       }
     }
   }
+
+    public ArrayList<String> getErr() {
+        return err;
+    }
+
+    public void setErr(ArrayList<String> err) {
+        this.err = err;
+    }
 
 
 }

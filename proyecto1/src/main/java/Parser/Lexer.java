@@ -3,13 +3,19 @@
 // source: Lexer.flex
 
 package Parser;
+import java.util.ArrayList;
 import java_cup.runtime.*;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
 public class Lexer implements java_cup.runtime.Scanner {
-
+    
+    private ArrayList<String> err = new ArrayList<>();
+    public void clearErrors(){
+        err.clear();
+        
+    }
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
 
@@ -1096,7 +1102,7 @@ return new Symbol(type, yyline, yycolumn, value);
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { throw new Error("Caracter ilegal <"+ yytext()+">");
+            {  err.add("Error: caracter ilegal: "+yytext()+" En posicion:"+ (yyline+1)+" "+(yycolumn+1));
             }
             // fall through
           case 55: break;
@@ -1371,6 +1377,14 @@ return new Symbol(type, yyline, yycolumn, value);
       }
     }
   }
+
+    public ArrayList<String> getErr() {
+        return err;
+    }
+
+    public void setErr(ArrayList<String> err) {
+        this.err = err;
+    }
 
 
 }
